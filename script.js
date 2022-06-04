@@ -43,6 +43,19 @@ async function read() {
 
 read()
 
+map.locate({setView: true, maxZoom: 16});
+
+function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+
+    L.marker(e.latlng).addTo(map)
+        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    L.circle(e.latlng, 1000).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
+
 async function loadData() {
     let response = await axios.get('./datasets/listing-of-registered-therapeutic-products.csv');
     let json = await csv().fromString(response.data);
