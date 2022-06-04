@@ -9,14 +9,17 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw' //demo access token
 }).addTo(map);
 
+let markerClusterLayer = L.markerClusterGroup()
+markerClusterLayer.addTo(map)
+
 async function read(){
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
-    console.log(response)
+    console.log(response.data.features)
     let layer = L.geoJson(response.data, {
         onEachFeature: function(feature, layer){
             layer.bindPopup(feature.properties.Description)
         }
-    }).addTo(map)
+    }).addTo(markerClusterLayer)
 }
 
 read()
