@@ -6,11 +6,12 @@ async function loadData() {
 
 let search = document.querySelector('#search')
 search.addEventListener('keydown', async function (event) {
-    // console.log(search.value)
     let data = await loadData()
-    // let tbody = document.querySelector('tbody')
+
     if (event.key == 'Enter') {
         
+        document.querySelector('table').classList.remove('d-none')
+
         let allRows = document.querySelectorAll('tr')
         for (let row of allRows){
             row.style.display = ''
@@ -18,10 +19,12 @@ search.addEventListener('keydown', async function (event) {
 
         let productNotFound = true
 
-        let td = document.querySelectorAll('.product-name')
-        for (let i = 0; i < td.length; i++){
-            if (td[i].innerHTML.toLowerCase().includes(search.value.toLowerCase())){
-                console.log(td[i].innerHTML)
+        let productNameTd = document.querySelectorAll('.product-name');
+        let apiTd = document.querySelectorAll('.api');
+        console.log(apiTd)
+        for (let i = 0; i < productNameTd.length; i++){
+            if (productNameTd[i].innerHTML.toLowerCase().includes(search.value.toLowerCase()) || apiTd[i].innerHTML.toLowerCase().includes(search.value.toLowerCase())){
+                console.log(productNameTd[i].innerHTML)
                 productNotFound = false
             } else {
                 document.querySelector('#row-' + CSS.escape(i)).style.display = 'none'
@@ -52,9 +55,13 @@ async function displayData() {
         let td2 = document.createElement('td')
         let split = data[i].active_ingredients.split('&&')
         if (Array.isArray(split)){
+            let ul = document.createElement('ul')
+            td2.appendChild(ul)
             for (let i of split){
                 i = i.toLowerCase();
-                td2.innerHTML += i + '<br>'
+                let li = document.createElement('li')
+                ul.appendChild(li)
+                li.innerHTML = `<span> ${i} </span>`
             }
         }
         td2.classList.add('text-capitalize','api')
@@ -63,9 +70,19 @@ async function displayData() {
         td3.innerHTML = data[i].forensic_classification
         td3.className = 'classification'
         
+        let td4 = document.createElement('td')
+        td4.innerHTML = data[i].atc_code
+        td4.className = 'atc-code'
+        
+        let td5 = document.createElement('td')
+        td5.innerHTML = data[i].dosage_form
+        td5.className = 'dosage-form'
+
         tr.appendChild(td1)
         tr.appendChild(td2)
+        tr.appendChild(td5)
         tr.appendChild(td3)
+        tr.appendChild(td4)
     }
 }
 
