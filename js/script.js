@@ -1,41 +1,11 @@
+// Load and convert CSV to JSON 
 async function loadData() {
     let response = await axios.get('./datasets/listing-of-registered-therapeutic-products.csv');
     let json = await csv().fromString(response.data);
     return json
 }
 
-let search = document.querySelector('#search')
-search.addEventListener('keydown', async function (event) {
-    let data = await loadData()
-
-    if (event.key == 'Enter') {
-
-        document.querySelector('table').classList.remove('d-none')
-
-        let allRows = document.querySelectorAll('tr')
-        for (let row of allRows) {
-            row.style.display = ''
-        }
-
-        let productNotFound = true
-
-        let productNameTd = document.querySelectorAll('.product-name');
-        let apiTd = document.querySelectorAll('.api');
-        for (let i = 0; i < productNameTd.length; i++) {
-            if (productNameTd[i].innerHTML.toLowerCase().includes(search.value.toLowerCase()) || apiTd[i].innerHTML.toLowerCase().includes(search.value.toLowerCase())) {
-                console.log(productNameTd[i].innerHTML)
-                productNotFound = false
-            } else {
-                document.querySelector('#row-' + CSS.escape(i)).style.display = 'none'
-            }
-        }
-
-        if (productNotFound) {
-            console.log('Product not found')
-        }
-    }
-})
-
+// Display all data in background - table has been set as d-none
 async function displayData() {
     let data = await loadData();
     console.log(data)
@@ -86,3 +56,35 @@ async function displayData() {
 }
 
 displayData()
+
+// Display search results when 'Enter' key pressed 
+let search = document.querySelector('#search')
+search.addEventListener('keydown', async function (event) {
+
+    if (event.key == 'Enter') {
+
+        document.querySelector('table').classList.remove('d-none')
+
+        let allRows = document.querySelectorAll('tr')
+        for (let row of allRows) {
+            row.style.display = ''
+        }
+
+        let productNotFound = true
+
+        let productNameTd = document.querySelectorAll('.product-name');
+        let apiTd = document.querySelectorAll('.api');
+        for (let i = 0; i < productNameTd.length; i++) {
+            if (productNameTd[i].innerHTML.toLowerCase().includes(search.value.toLowerCase()) || apiTd[i].innerHTML.toLowerCase().includes(search.value.toLowerCase())) {
+                console.log(productNameTd[i].innerHTML)
+                productNotFound = false
+            } else {
+                document.querySelector('#row-' + CSS.escape(i)).style.display = 'none'
+            }
+        }
+
+        if (productNotFound) {
+            console.log('Product not found')
+        }
+    }
+})

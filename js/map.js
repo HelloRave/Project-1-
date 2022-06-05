@@ -1,9 +1,11 @@
 // Create Map
 function createMap() {
+    // Set up map view and bounds 
     let map = L.map('map')
     map.setView([1.3521, 103.8198], 11)
     map.setMaxBounds(L.latLngBounds([1.485448, 104.084908], [1.188641, 103.582865]))
     
+    // Tile Layer
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
         minZoom: 11,
@@ -14,12 +16,19 @@ function createMap() {
         accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw' //demo access token
     }).addTo(map);
 
-    map.locate({ setView: true, maxZoom: 16 });
+    // Current location on map
+    // setInterval(function (){
+    //     map.locate({setView: true, maxZoom: 18}, 5000)
+    // }) - super laggy 
+    
+    map.locate({setView: true, maxZoom: 18}) 
 
     function onLocationFound(e) {
         var radius = e.accuracy / 2;
 
-        L.marker(e.latlng).addTo(map)
+        L.marker(e.latlng, {
+            icon: pharmacyMarker
+        }).addTo(map)
             .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
         L.circle(e.latlng, 1000).addTo(map);
@@ -27,20 +36,36 @@ function createMap() {
 
     map.on('locationfound', onLocationFound);
 
+    function onLocationError(e) {
+        alert(e.message);
+    }
+    
+    map.on('locationerror', onLocationError);
+    
     return map
 
 }
 
 // Customised Icon
-let myIcon = L.icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-    shadowSize: [68, 95],
-    shadowAnchor: [22, 94]
-});
+let MarkerIcon = L.Icon.extend({
+    options: {
+        shadowUrl: '../images/markers/marker-shadow.png'
+    }
+})
+
+let hospitalMarker = new MarkerIcon({iconUrl: '../images/markers/marker-icon-red.png'})
+let pharmacyMarker = new MarkerIcon({iconUrl: '../images/markers/marker-icon-gold.png'})
+let gslMarker = new MarkerIcon({iconUrl: '../images/markers/marker-icon-blue.png'})
+
+// let myIcon = L.icon({
+//     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+//     shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+//     iconSize: [38, 95],
+//     iconAnchor: [22, 94],
+//     popupAnchor: [-3, -76],
+//     shadowSize: [68, 95],
+//     shadowAnchor: [22, 94]
+// });
 
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function(){
@@ -55,7 +80,7 @@ window.addEventListener('DOMContentLoaded', async function(){
     let layer = L.geoJson(response.data, {
         pointToLayer: function (geoJsonPoint, latlng) {
             return L.marker(latlng, {
-                icon: myIcon
+                icon: hospitalMarker
             });
         },
         onEachFeature: function (feature, layer) {
