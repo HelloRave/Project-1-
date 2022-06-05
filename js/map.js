@@ -67,6 +67,22 @@ let gslMarker = new MarkerIcon({iconUrl: '../images/markers/marker-icon-blue.png
 //     shadowAnchor: [22, 94]
 // });
 
+// Display GeoJSON function 
+function displayGeojson(responseData, clusterLayer, markerIcon){
+    let layer = L.geoJson(responseData, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            return L.marker(latlng, {
+                icon: markerIcon
+            });
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.Description)
+        }
+    }).addTo(clusterLayer)
+
+    return layer 
+}
+
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function(){
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
@@ -77,14 +93,5 @@ window.addEventListener('DOMContentLoaded', async function(){
     let markerClusterLayer = L.markerClusterGroup()
     markerClusterLayer.addTo(map)
 
-    let layer = L.geoJson(response.data, {
-        pointToLayer: function (geoJsonPoint, latlng) {
-            return L.marker(latlng, {
-                icon: hospitalMarker
-            });
-        },
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.Description)
-        }
-    }).addTo(markerClusterLayer)
+    displayGeojson(response.data, markerClusterLayer, hospitalMarker)
 })
