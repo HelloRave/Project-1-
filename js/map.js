@@ -68,11 +68,11 @@ let gslMarker = new MarkerIcon({iconUrl: '../images/markers/marker-icon-blue.png
 // });
 
 // Display GeoJSON function 
-function displayGeojson(responseData, clusterLayer, markerIcon, hospital = null){
+function displayGeojson(responseData, markerIcon, hospital = null){
     let layer = L.geoJson(responseData, {
         filter: function (feature){
             if (!hospital){
-                return true
+                return !feature.properties.Description.toLowerCase().includes("hospital")
             } else {
                 return feature.properties.Description.toLowerCase().includes(hospital) //To improve: some address with 'hospital' but not hospitals
             }
@@ -92,7 +92,7 @@ function displayGeojson(responseData, clusterLayer, markerIcon, hospital = null)
                 <p> Pharmacy Name: ${allTd[6].innerHTML} </p>
             </div>`)
         }
-    }).addTo(clusterLayer)
+    })
 
     return layer 
 }
@@ -106,9 +106,16 @@ window.addEventListener('DOMContentLoaded', async function(){
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
     console.log(response.data.features)
 
+    // To find way to put marker clustering with control layers
     let initialMarkerClusterLayer = L.markerClusterGroup()
     initialMarkerClusterLayer.addTo(map)
     initialDisplay = initialMarkerClusterLayer
 
-    displayGeojson(response.data, initialMarkerClusterLayer, pharmacyMarker)
+    let hospitalLayer = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(initialMarkerClusterLayer)
+    let othersLayer = displayGeojson(response.data, pharmacyMarker).addTo(initialMarkerClusterLayer)
+    
+    // initialDisplay = L.control.layers({},{
+    //     'Hospital': layer1,
+    //     'Others': layer2
+    // }).addTo(map)
 })

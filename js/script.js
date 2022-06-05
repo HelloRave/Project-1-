@@ -83,7 +83,7 @@ search.addEventListener('keydown', async function (event) {
         }
 
         // Display FilteredArr on map based on forensic classification or dosage form or atc code
-        let displayHospital = false; 
+        let displayHospital = true; 
 
         
         
@@ -91,9 +91,9 @@ search.addEventListener('keydown', async function (event) {
         if (displayHospital){
             let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
             
-            map.removeLayer(initialDisplay)
+            initialDisplay.removeFrom(map)
 
-            displayGeojson(response.data, map, hospitalMarker, 'hospital')
+            displayGeojson(response.data, hospitalMarker, 'hospital').addTo(map)
         }
     }
 }) 
