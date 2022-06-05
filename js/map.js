@@ -27,7 +27,7 @@ function createMap() {
         var radius = e.accuracy / 2;
 
         L.marker(e.latlng, {
-            icon: pharmacyMarker
+            icon: gslMarker
         }).addTo(map)
             .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
@@ -68,13 +68,13 @@ let gslMarker = new MarkerIcon({iconUrl: '../images/markers/marker-icon-blue.png
 // });
 
 // Display GeoJSON function 
-function displayGeojson(responseData, clusterLayer, markerIcon, criteria = null){
+function displayGeojson(responseData, clusterLayer, markerIcon, hospital = null){
     let layer = L.geoJson(responseData, {
         filter: function (feature){
-            if (!criteria){
+            if (!hospital){
                 return true
             } else {
-                return feature.properties.Description.toLowerCase().includes(criteria)
+                return feature.properties.Description.toLowerCase().includes(hospital) //To improve: some address with 'hospital' but not hospitals
             }
         },
         pointToLayer: function (feature, latlng) {
@@ -97,15 +97,18 @@ function displayGeojson(responseData, clusterLayer, markerIcon, criteria = null)
     return layer 
 }
 
+// Nest displayGeojson under a layer when page loads
+let map = createMap()
+let initialDisplay = null; 
+
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function(){
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
     console.log(response.data.features)
 
-    let map = createMap();
+    let initialMarkerClusterLayer = L.markerClusterGroup()
+    initialMarkerClusterLayer.addTo(map)
+    initialDisplay = initialMarkerClusterLayer
 
-    let markerClusterLayer = L.markerClusterGroup()
-    markerClusterLayer.addTo(map)
-
-    displayGeojson(response.data, markerClusterLayer, hospitalMarker)
+    displayGeojson(response.data, initialMarkerClusterLayer, pharmacyMarker)
 })

@@ -68,7 +68,7 @@ search.addEventListener('keydown', async function (event) {
                     li.innerHTML = `<span> ${i} </span>`
                 }
             }
-            td2.classList.add('text-capitalize', 'api')
+            td2.classList.add('text-capitalize', 'active_ingredients')
 
             let td3 = createTableData(combinedFilteredArr, i, 'dosage_form') 
             let td4 = createTableData(combinedFilteredArr, i, 'forensic_classification') 
@@ -82,6 +82,18 @@ search.addEventListener('keydown', async function (event) {
             tr.appendChild(td5)
         }
 
-        // Display 
+        // Display FilteredArr on map based on forensic classification or dosage form or atc code
+        let displayHospital = false; 
+
+        
+        
+        // Show hospital markers only if criteria met for classification/dosage form/atc code
+        if (displayHospital){
+            let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
+            
+            map.removeLayer(initialDisplay)
+
+            displayGeojson(response.data, map, hospitalMarker, 'hospital')
+        }
     }
 }) 
