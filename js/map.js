@@ -68,15 +68,29 @@ let gslMarker = new MarkerIcon({iconUrl: '../images/markers/marker-icon-blue.png
 // });
 
 // Display GeoJSON function 
-function displayGeojson(responseData, clusterLayer, markerIcon){
+function displayGeojson(responseData, clusterLayer, markerIcon, criteria = null){
     let layer = L.geoJson(responseData, {
-        pointToLayer: function (geoJsonPoint, latlng) {
+        filter: function (feature){
+            if (!criteria){
+                return true
+            } else {
+                return feature.properties.Description.toLowerCase().includes(criteria)
+            }
+        },
+        pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
                 icon: markerIcon
             });
         },
         onEachFeature: function (feature, layer) {
-            layer.bindPopup(feature.properties.Description)
+            let div = document.createElement('div');
+            div.innerHTML = feature.properties.Description;
+            let allTd = div.querySelectorAll('td')
+            layer.bindPopup(`
+            <div>
+                <p> Address: ${allTd[4].innerHTML} SINGAPORE ${allTd[0].innerHTML} </p>
+                <p> Pharmacy Name: ${allTd[6].innerHTML} </p>
+            </div>`)
         }
     }).addTo(clusterLayer)
 

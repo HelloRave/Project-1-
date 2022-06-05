@@ -81,5 +81,7 @@ search.addEventListener('keydown', async function (event) {
             tr.appendChild(td4)
             tr.appendChild(td5)
         }
+
+        // Display 
     }
 }) 
