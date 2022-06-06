@@ -47,6 +47,12 @@ function createMap() {
 }
 
 // Customised Icon
+// let rxFontawesomeIcon = L.divIcon({
+//     html: '<i class="fa-solid fa-prescription"></i>',
+//     iconSize: null,
+//     className: 'div-icon'
+// }) - to learn how to style 
+
 let MarkerIcon = L.Icon.extend({
     options: {
         shadowUrl: '../images/markers/marker-shadow.png'
@@ -107,8 +113,7 @@ window.addEventListener('DOMContentLoaded', async function(){
     console.log(response.data.features)
 
     // To find way to put marker clustering with control layers
-    let initialMarkerClusterLayer = L.markerClusterGroup()
-    initialMarkerClusterLayer.addTo(map)
+    let initialMarkerClusterLayer = L.markerClusterGroup().addTo(map)
     initialDisplay = initialMarkerClusterLayer
 
     let hospitalLayer = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(initialMarkerClusterLayer)

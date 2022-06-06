@@ -83,17 +83,31 @@ search.addEventListener('keydown', async function (event) {
         }
 
         // Display FilteredArr on map based on forensic classification or dosage form or atc code
-        let displayHospital = true; 
+        let displayHospital = false; 
+        
 
+        let displayHospitalArr = combinedFilteredArr.filter((object) => {
+            return typeof object['dosage_form'] == 'string' && (object['dosage_form'].toLowerCase().includes('injection') && !object['active_ingredients'].toLowerCase().includes('insulin'))
+        })
+
+        if (displayHospitalArr.length > 0){
+            displayHospital = true;
+        }
         
-        
+        console.log(displayHospitalArr, displayHospital)
+
+        let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
+        let hospitalLayer = displayGeojson(response.data, hospitalMarker, 'hospital')
+
+        if (!displayHospital){
+            hospitalLayer.removeFrom(map); //To fix: duplicate hospital layer if checking from opioid to insulin
+            initialDisplay.addTo(map)
+        }
+
         // Show hospital markers only if criteria met for classification/dosage form/atc code
         if (displayHospital){
-            let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
-            
             initialDisplay.removeFrom(map)
-
-            displayGeojson(response.data, hospitalMarker, 'hospital').addTo(map)
+            hospitalLayer.addTo(map)
         }
     }
 }) 
