@@ -21,7 +21,7 @@ async function filterData(k, v) {
 function createTableData(arr, i, k){
     let td = document.createElement('td')
     td.innerHTML = arr[i][k]
-    td.className = k
+    td.classList.add(k)
 
     return td 
 }
@@ -70,7 +70,8 @@ search.addEventListener('keydown', async function (event) {
             }
             td2.classList.add('text-capitalize', 'active_ingredients')
 
-            let td3 = createTableData(combinedFilteredArr, i, 'dosage_form') 
+            let td3 = createTableData(combinedFilteredArr, i, 'dosage_form')
+            td3.classList.add('d-none', 'd-lg-table-cell') 
             let td4 = createTableData(combinedFilteredArr, i, 'forensic_classification') 
             let td5 = createTableData(combinedFilteredArr, i, 'atc_code') 
 
@@ -84,8 +85,8 @@ search.addEventListener('keydown', async function (event) {
 
         // Display FilteredArr on map based on forensic classification or dosage form or atc code
         let displayHospital = false; 
-        
 
+        // Determine if only hospital should be shown on map
         let displayHospitalArr = combinedFilteredArr.filter((object) => {
             return typeof object['dosage_form'] == 'string' && (object['dosage_form'].toLowerCase().includes('injection') && !object['active_ingredients'].toLowerCase().includes('insulin'))
         })
@@ -96,18 +97,12 @@ search.addEventListener('keydown', async function (event) {
         
         console.log(displayHospitalArr, displayHospital)
 
-        let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
-        let hospitalLayer = displayGeojson(response.data, hospitalMarker, 'hospital')
+        // Reset map 
+        initialDisplay() 
 
-        if (!displayHospital){
-            hospitalLayer.removeFrom(map); //To fix: duplicate hospital layer if checking from opioid to insulin
-            initialDisplay.addTo(map)
-        }
-
-        // Show hospital markers only if criteria met for classification/dosage form/atc code
+        // // Show hospital markers only if criteria met for classification/dosage form/atc code
         if (displayHospital){
-            initialDisplay.removeFrom(map)
-            hospitalLayer.addTo(map)
+            removeCommunityPharmacy()
         }
     }
 }) 

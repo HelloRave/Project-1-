@@ -2,7 +2,7 @@
 function createMap() {
     // Set up map view and bounds 
     let map = L.map('map')
-    map.setView([1.3521, 103.8198], 11)
+    map.setView([1.3521, 103.8198], 12)
     map.setMaxBounds(L.latLngBounds([1.485448, 104.084908], [1.188641, 103.582865]))
     
     // Tile Layer
@@ -21,14 +21,12 @@ function createMap() {
     //     map.locate({setView: true, maxZoom: 18}, 5000)
     // }) - super laggy 
     
-    map.locate({setView: true, maxZoom: 18}) 
+    map.locate({setView: false, maxZoom: 18}) 
 
     function onLocationFound(e) {
-        var radius = e.accuracy / 2;
+        var radius = e.accuracy;
 
-        L.marker(e.latlng, {
-            icon: gslMarker
-        }).addTo(map)
+        L.marker(e.latlng).addTo(map)
             .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
         L.circle(e.latlng, 1000).addTo(map);
@@ -47,11 +45,12 @@ function createMap() {
 }
 
 // Customised Icon
-// let rxFontawesomeIcon = L.divIcon({
-//     html: '<i class="fa-solid fa-prescription"></i>',
-//     iconSize: null,
-//     className: 'div-icon'
-// }) - to learn how to style 
+let rxFontawesomeIcon = L.divIcon({
+    html: '<i class="fa-solid fa-prescription"></i>',
+    iconSize: null,
+    className: 'div-icon'
+}) 
+// - to learn how to style 
 
 let MarkerIcon = L.Icon.extend({
     options: {
@@ -105,22 +104,35 @@ function displayGeojson(responseData, markerIcon, hospital = null){
 
 // Nest displayGeojson under a layer when page loads
 let map = createMap()
-let initialDisplay = null; 
+let initialDisplay = null;
+let removeCommunityPharmacy = null;  
 
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function(){
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
     console.log(response.data.features)
 
-    // To find way to put marker clustering with control layers
-    let initialMarkerClusterLayer = L.markerClusterGroup().addTo(map)
-    initialDisplay = initialMarkerClusterLayer
+    let hospitalMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let othersMarkerClusterLayer = L.markerClusterGroup().addTo(map)
 
-    let hospitalLayer = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(initialMarkerClusterLayer)
-    let othersLayer = displayGeojson(response.data, pharmacyMarker).addTo(initialMarkerClusterLayer)
+    let hospitalLayer = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(hospitalMarkerClusterLayer)
+    let othersLayer = displayGeojson(response.data, pharmacyMarker).addTo(othersMarkerClusterLayer)
     
-    // initialDisplay = L.control.layers({},{
-    //     'Hospital': layer1,
-    //     'Others': layer2
-    // }).addTo(map)
+    L.control.layers({},{
+        'Hospital': hospitalMarkerClusterLayer,
+        'Others': othersMarkerClusterLayer
+    }).addTo(map)
+
+    initialDisplay = function (){
+        if (!map.hasLayer(othersMarkerClusterLayer)){
+            map.addLayer(othersMarkerClusterLayer)
+        }
+    }
+
+    removeCommunityPharmacy = function(){
+        if (map.hasLayer(othersMarkerClusterLayer)){
+            map.removeLayer(othersMarkerClusterLayer)
+        }
+    }
 })
+
