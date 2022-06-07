@@ -41,7 +41,7 @@ search.addEventListener('keydown', async function (event) {
 
         // If no match, display message
         if (combinedFilteredArr.length == 0){
-            console.log('Product not found')
+            document.querySelector('.alert').classList.remove('d-none')
         }
 
         // To display filteredArr on table 
