@@ -1,7 +1,7 @@
 // Pre loader
-window.addEventListener('load', function () {
-    document.querySelector('#loader').className = 'd-none'
-})
+// window.addEventListener('load', function () {
+//     document.querySelector('#loader').className = 'd-none'
+// })
 
 // Create Map
 function createMap() {
@@ -120,33 +120,65 @@ function displayGeojson(responseData, markerIcon, hospital = null) {
 // Nest displayGeojson under a layer when page loads
 let map = createMap()
 let initialDisplay = null;
-let removeCommunityPharmacy = null;
+let removeGsl = null;
+let removePmed = null;
+let removePom = null;
 
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function () {
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
     console.log(response.data.features)
 
+    // Add all four layers to map 
     let hospitalMarkerClusterLayer = L.markerClusterGroup().addTo(map)
-    let othersMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let gslMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let pmedMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let pomMarkerClusterLayer = L.markerClusterGroup().addTo(map)
 
-    let hospitalLayer = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(hospitalMarkerClusterLayer)
-    let othersLayer = displayGeojson(response.data, pharmacyMarker).addTo(othersMarkerClusterLayer)
+    // Add geoJson to respective cluster group 
+    let hospital = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(hospitalMarkerClusterLayer)
+    let gsl = displayGeojson(response.data, gslMarker).addTo(gslMarkerClusterLayer)
+    let pmed = displayGeojson(response.data, pharmacyMarker).addTo(pmedMarkerClusterLayer)
+    let pom = displayGeojson(response.data, hospitalMarker).addTo(pomMarkerClusterLayer)
 
+    // Hospital layer add to overlay 
     L.control.layers({}, {
         'Hospital': hospitalMarkerClusterLayer,
-        'Others': othersMarkerClusterLayer
     }).addTo(map)
 
+    // Function to render map to initial display 
     initialDisplay = function () {
-        if (!map.hasLayer(othersMarkerClusterLayer)) {
-            map.addLayer(othersMarkerClusterLayer)
+        if(map.hasLayer(pmedMarkerClusterLayer) || map.hasLayer(pomMarkerClusterLayer)){
+            map.removeLayer(pmedMarkerClusterLayer);
+            map.removeLayer(pomMarkerClusterLayer); 
+        }
+        if (!map.hasLayer(gslMarkerClusterLayer)) {
+            map.addLayer(gslMarkerClusterLayer)
+        }
+        if (!map.hasLayer(hospitalMarkerClusterLayer)) {
+            map.addLayer(hospitalMarkerClusterLayer)
         }
     }
 
-    removeCommunityPharmacy = function () {
-        if (map.hasLayer(othersMarkerClusterLayer)) {
-            map.removeLayer(othersMarkerClusterLayer)
+    // Set map as initial display to prevent all four layers from displaying together 
+    initialDisplay()
+
+    // Function to remove relevant layers 
+    removeGsl = function () {
+        if (map.hasLayer(gslMarkerClusterLayer)) {
+            map.removeLayer(gslMarkerClusterLayer)
+        }
+    }
+    
+    removePmed = function () {
+        if (map.hasLayer(pmedMarkerClusterLayer)) {
+            map.removeLayer(pmedMarkerClusterLayer)
+        }
+    }
+    
+    removePom = function () {
+        if (map.hasLayer(pomMarkerClusterLayer)) {
+            map.removeLayer(pomMarkerClusterLayer)
         }
     }
 })

@@ -5,8 +5,8 @@ async function loadData() {
     return json
 }
 
-// Filtering function
-async function filterData(k, v) {
+// Filter search function
+async function filterSearch(k, v) {
     let data = await loadData();
 
     // return array of objects with relevant keys and values
@@ -16,6 +16,27 @@ async function filterData(k, v) {
 
     return filteredArr
 }
+
+// Filter which layer to display 
+function filterHospital(arr){ 
+    let nonInsulinInjArr = arr.filter((object) => {
+        return typeof object['dosage_form'] == 'string' && (object['dosage_form'].toLowerCase().includes('injection') && !object['active_ingredients'].toLowerCase().includes('insulin'))
+    })
+
+    let opioidArr = arr.filter((object) => {
+        return typeof object['atc_code'] == 'string' && (object['atc_code'].includes('N02A') && !object['active_ingredients'].toLowerCase().includes('tramadol') && !object['active_ingredients'].toLowerCase().includes('codeine'))
+    })
+    
+    displayHospitalArr = nonInsulinInjArr.concat(opioidArr)
+
+    return displayHospitalArr
+}
+
+function filterClassification(arr){
+
+}
+
+// Sorting function for table data 
 
 // Create table data (td) function
 function createTableData(arr, i, k){
@@ -31,18 +52,12 @@ let search = document.querySelector('#search')
 search.addEventListener('keydown', async function (event) {
 
     if (event.key == 'Enter') {
-        
-        document.querySelector('#loader').className = ''
-
-        // window.addEventListener('load', function(){
-        //     document.querySelector('#loader').className = 'd-none'
-        // })
 
         // To filter data to match search value with product name or active ingredient
         let searchValue = search.value.toLowerCase()
 
-        let filteredArr_1 = await filterData('product_name', searchValue)
-        let filteredArr_2 = await filterData('active_ingredients', searchValue)
+        let filteredArr_1 = await filterSearch('product_name', searchValue)
+        let filteredArr_2 = await filterSearch('active_ingredients', searchValue)
         let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
 
         // If no match, display message
@@ -89,26 +104,37 @@ search.addEventListener('keydown', async function (event) {
             tr.appendChild(td5)
         }
 
+        // Reset map 
+        initialDisplay() 
+
+        // Insert display gsl/pmed/pom here
+        let displayGsl = false;
+        let displayPmed = false; 
+        let displayPom = false; 
+
+        // arr.filter((object) => {
+        //     return typeof object['forensic_classification'] == 'string' && object['forensic_classification'].includes('prescription')})
+        // arr.filter((object) => {
+        //     return typeof object['forensic_classification'] == 'string' && object['forensic_classification'].includes('pharmacy')})
+        // arr.filter((object) => {
+        //     return typeof object['forensic_classification'] == 'string' && object['forensic_classification'].includes('general')})
+        
+        
         // Display FilteredArr on map based on forensic classification or dosage form or atc code
         let displayHospital = false; 
 
         // Determine if only hospital should be shown on map
-        let displayHospitalArr = combinedFilteredArr.filter((object) => {
-            return typeof object['dosage_form'] == 'string' && (object['dosage_form'].toLowerCase().includes('injection') && !object['active_ingredients'].toLowerCase().includes('insulin'))
-        })
-
-        if (displayHospitalArr.length > 0){
+        console.log(filterHospital(combinedFilteredArr)) //To fix: Searching tramadol will display hospital only because it has injection 
+        
+        if (filterHospital(combinedFilteredArr).length > 0){
             displayHospital = true;
         }
-        
-        console.log(displayHospitalArr, displayHospital)
 
-        // Reset map 
-        initialDisplay() 
-
-        // // Show hospital markers only if criteria met for classification/dosage form/atc code
+        // Show hospital markers only if criteria met for classification/dosage form/atc code
         if (displayHospital){
-            removeCommunityPharmacy()
+            removeGsl();
+            removePmed();
+            removePom(); 
         }
     }
 }) 
