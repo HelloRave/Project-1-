@@ -31,6 +31,12 @@ let search = document.querySelector('#search')
 search.addEventListener('keydown', async function (event) {
 
     if (event.key == 'Enter') {
+        
+        document.querySelector('#loader').className = ''
+
+        // window.addEventListener('load', function(){
+        //     document.querySelector('#loader').className = 'd-none'
+        // })
 
         // To filter data to match search value with product name or active ingredient
         let searchValue = search.value.toLowerCase()
