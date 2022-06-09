@@ -44,7 +44,7 @@ function filterClassification(arr) {
     return uniqueClassificationArr
 }
 
-// Sorting function for table data 
+// Sorting function for table data - W3School sort table 
 
 // Create table data (td) function
 function createTableData(arr, i, k) {
@@ -167,3 +167,29 @@ search.addEventListener('keydown', async function (event) {
         }
     }
 }) 
+
+function sortTable(){
+    switchCount = 0; 
+    table = document.querySelector('#drug-table');
+    switching = true; 
+    dir = 'ascending';
+
+    while(switching){
+        switching = false; 
+        rows = table.rows;
+
+        for (let i = 1; i < rows.length; i++){
+            shouldSwitch = false; 
+
+            row_1 = rows[i].childNodes[0]
+            row_2 = rows[i + 1].childNodes[0]
+
+            if (dir == 'ascending'){
+                if (row_1.innerHTML > row_2.innerHTML){
+                    shouldSwitch = true; 
+                    break; 
+                }
+            }
+        }
+    }
+}
