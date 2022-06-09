@@ -123,6 +123,27 @@ let initialDisplay = null;
 let removeGsl = null;
 let removePmed = null;
 let removePom = null;
+let addPmed = null; 
+let addPom = null; 
+
+// Create/Remove layer function
+function createLayer(layer){
+    let create = function(){
+        if (!map.hasLayer(layer)) {
+            map.addLayer(layer)
+        }
+    }
+    return create
+}
+
+function removeLayer(layer){
+    let remove = function(){
+        if (map.hasLayer(layer)) {
+            map.removeLayer(layer)
+        }
+    }
+    return remove
+}
 
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function () {
@@ -160,26 +181,14 @@ window.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
+    // Function to add/remove relevant layers 
+    addPmed = createLayer(pmedMarkerClusterLayer);
+    addPom = createLayer(pomMarkerClusterLayer);
+    removeGsl = removeLayer(gslMarkerClusterLayer);
+    removePmed = removeLayer(pmedMarkerClusterLayer);
+    removePom = removeLayer(pomMarkerClusterLayer)
+
     // Set map as initial display to prevent all four layers from displaying together 
     initialDisplay()
-
-    // Function to remove relevant layers 
-    removeGsl = function () {
-        if (map.hasLayer(gslMarkerClusterLayer)) {
-            map.removeLayer(gslMarkerClusterLayer)
-        }
-    }
-    
-    removePmed = function () {
-        if (map.hasLayer(pmedMarkerClusterLayer)) {
-            map.removeLayer(pmedMarkerClusterLayer)
-        }
-    }
-    
-    removePom = function () {
-        if (map.hasLayer(pomMarkerClusterLayer)) {
-            map.removeLayer(pomMarkerClusterLayer)
-        }
-    }
 })
 

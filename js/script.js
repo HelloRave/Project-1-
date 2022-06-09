@@ -18,7 +18,7 @@ async function filterSearch(k, v) {
 }
 
 // Filter which layer to display 
-function filterHospital(arr){ 
+function filterHospital(arr) {
     let nonInsulinInjArr = arr.filter((object) => {
         return typeof object['dosage_form'] == 'string' && (object['dosage_form'].toLowerCase().includes('injection') && !object['active_ingredients'].toLowerCase().includes('insulin'))
     })
@@ -26,25 +26,33 @@ function filterHospital(arr){
     let opioidArr = arr.filter((object) => {
         return typeof object['atc_code'] == 'string' && (object['atc_code'].includes('N02A') && !object['active_ingredients'].toLowerCase().includes('tramadol') && !object['active_ingredients'].toLowerCase().includes('codeine'))
     })
-    
+
     displayHospitalArr = nonInsulinInjArr.concat(opioidArr)
 
     return displayHospitalArr
 }
 
-function filterClassification(arr){
+function filterClassification(arr) {
+    let classificationArr = arr.map((object) => {
+        return object['forensic_classification']
+    })
 
+    let uniqueClassificationArr = classificationArr.filter((str, i, arr) => {
+        return arr.indexOf(str) === i
+    })
+
+    return uniqueClassificationArr
 }
 
 // Sorting function for table data 
 
 // Create table data (td) function
-function createTableData(arr, i, k){
+function createTableData(arr, i, k) {
     let td = document.createElement('td')
     td.innerHTML = arr[i][k]
     td.classList.add(k)
 
-    return td 
+    return td
 }
 
 // Display search results when 'Enter' key pressed 
@@ -61,7 +69,7 @@ search.addEventListener('keydown', async function (event) {
         let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
 
         // If no match, display message
-        if (combinedFilteredArr.length == 0){
+        if (combinedFilteredArr.length == 0) {
             document.querySelector('.alert').classList.remove('d-none')
         }
 
@@ -92,9 +100,9 @@ search.addEventListener('keydown', async function (event) {
             td2.classList.add('text-capitalize', 'active_ingredients')
 
             let td3 = createTableData(combinedFilteredArr, i, 'dosage_form')
-            td3.classList.add('d-none', 'd-lg-table-cell') 
-            let td4 = createTableData(combinedFilteredArr, i, 'forensic_classification') 
-            let td5 = createTableData(combinedFilteredArr, i, 'atc_code') 
+            td3.classList.add('d-none', 'd-lg-table-cell')
+            let td4 = createTableData(combinedFilteredArr, i, 'forensic_classification')
+            let td5 = createTableData(combinedFilteredArr, i, 'atc_code')
 
 
             tr.appendChild(td1)
@@ -105,36 +113,57 @@ search.addEventListener('keydown', async function (event) {
         }
 
         // Reset map 
-        initialDisplay() 
+        initialDisplay()
 
         // Insert display gsl/pmed/pom here
         let displayGsl = false;
-        let displayPmed = false; 
-        let displayPom = false; 
+        let displayPmed = false;
+        let displayPom = false;
 
-        // arr.filter((object) => {
-        //     return typeof object['forensic_classification'] == 'string' && object['forensic_classification'].includes('prescription')})
-        // arr.filter((object) => {
-        //     return typeof object['forensic_classification'] == 'string' && object['forensic_classification'].includes('pharmacy')})
-        // arr.filter((object) => {
-        //     return typeof object['forensic_classification'] == 'string' && object['forensic_classification'].includes('general')})
-        
-        
+        for (let classification of filterClassification(combinedFilteredArr)){
+            if (classification.toLowerCase().includes('prescription')){
+                displayPom = true
+            }
+            if (classification.toLowerCase().includes('pharmacy')){
+                displayPmed = true
+            }
+            if (classification.toLowerCase().includes('general')){
+                displayGsl = true
+            }
+        }
+
+        console.log(displayGsl, displayPmed, displayPom, filterClassification(combinedFilteredArr))
+
+        if(displayPom){
+            removeGsl();
+            addPom();
+        }
+
+        if(displayPmed){
+            removeGsl();
+            removePom();
+            addPmed();
+        }
+
+        if(displayGsl){
+            initialDisplay();
+        }
+
         // Display FilteredArr on map based on forensic classification or dosage form or atc code
-        let displayHospital = false; 
+        let displayHospital = false;
 
         // Determine if only hospital should be shown on map
         console.log(filterHospital(combinedFilteredArr)) //To fix: Searching tramadol will display hospital only because it has injection 
-        
-        if (filterHospital(combinedFilteredArr).length > 0){
+
+        if (filterHospital(combinedFilteredArr).length > 0) {
             displayHospital = true;
         }
 
         // Show hospital markers only if criteria met for classification/dosage form/atc code
-        if (displayHospital){
+        if (displayHospital) {
             removeGsl();
             removePmed();
-            removePom(); 
+            removePom();
         }
     }
 }) 
