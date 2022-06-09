@@ -61,6 +61,9 @@ search.addEventListener('keydown', async function (event) {
 
     if (event.key == 'Enter') {
 
+        document.querySelector('.fa-angle-up').style.display = 'inline-block';
+        document.querySelector('.fa-angle-down').style.display = 'none'
+
         // To filter data to match search value with product name or active ingredient
         let searchValue = search.value.toLowerCase()
 
@@ -168,28 +171,70 @@ search.addEventListener('keydown', async function (event) {
     }
 }) 
 
-function sortTable(){
-    switchCount = 0; 
-    table = document.querySelector('#drug-table');
-    switching = true; 
-    dir = 'ascending';
+function sortTable(n){
+    let switchCount = 0; 
+    let table = document.querySelector('#drug-table');
+    let switching = true; 
+    let dir = 'ascending';
 
     while(switching){
         switching = false; 
-        rows = table.rows;
+        let rows = table.rows;
 
-        for (let i = 1; i < rows.length; i++){
-            shouldSwitch = false; 
+        let shouldSwitch = false;
+        let row_1 = null;
+        let row_2 = null; 
+        for (let i = 1; i < (rows.length - 1); i++){
 
-            row_1 = rows[i].childNodes[0]
-            row_2 = rows[i + 1].childNodes[0]
+            row_1 = rows[i]
+            row_2 = rows[i + 1]
 
             if (dir == 'ascending'){
-                if (row_1.innerHTML > row_2.innerHTML){
+                if (row_1.childNodes[n].innerHTML > row_2.childNodes[n].innerHTML){
+                    shouldSwitch = true; 
+                    break; 
+                }
+            } else if (dir == 'descending'){
+                if (row_1.childNodes[n].innerHTML < row_2.childNodes[n].innerHTML){
                     shouldSwitch = true; 
                     break; 
                 }
             }
+        } 
+
+        if (shouldSwitch){
+            row_1.parentNode.insertBefore(row_2, row_1);
+            switching = true;
+            switchCount++; 
+        } else {
+            if (switchCount == 0 && dir == 'ascending'){ //Why this line 
+                dir = 'descending';
+                switching = true; 
+            }
         }
     }
 }
+
+document.querySelector('#sort-name-ascending').addEventListener('click', function(){
+    document.querySelector('.fa-angle-up').style.display = 'none';
+    document.querySelector('.fa-angle-down').style.display = 'inline-block'
+    sortTable(0)
+})
+
+document.querySelector('#sort-name-descending').addEventListener('click', function(){
+    document.querySelector('.fa-angle-up').style.display = 'inline-block';
+    document.querySelector('.fa-angle-down').style.display = 'none'
+    sortTable(0)
+})
+
+document.querySelector('#sort-classification-ascending').addEventListener('click', function(){
+    document.querySelector('.fa-angle-up').style.display = 'none';
+    document.querySelector('.fa-angle-down').style.display = 'inline-block'
+    sortTable(3)
+})
+
+document.querySelector('#sort-classification-descending').addEventListener('click', function(){
+    document.querySelector('.fa-angle-up').style.display = 'inline-block';
+    document.querySelector('.fa-angle-down').style.display = 'none'
+    sortTable(3)
+})
