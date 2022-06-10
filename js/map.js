@@ -123,12 +123,12 @@ let initialDisplay = null;
 let removeGsl = null;
 let removePmed = null;
 let removePom = null;
-let addPmed = null; 
-let addPom = null; 
+let addPmed = null;
+let addPom = null;
 
 // Create/Remove layer function
-function createLayer(layer){
-    let create = function(){
+function createLayer(layer) {
+    let create = function () {
         if (!map.hasLayer(layer)) {
             map.addLayer(layer)
         }
@@ -136,14 +136,25 @@ function createLayer(layer){
     return create
 }
 
-function removeLayer(layer){
-    let remove = function(){
+function removeLayer(layer) {
+    let remove = function () {
         if (map.hasLayer(layer)) {
             map.removeLayer(layer)
         }
     }
     return remove
 }
+
+//Custom marker cluster icon create function
+function createMarkerClusterGroup(className) {
+    let markerClusterGroup = L.markerClusterGroup({
+        iconCreateFunction: function (cluster) {
+            return L.divIcon({ html: cluster.getChildCount(), className: className, iconSize: L.point(40, 40) })
+        }
+    });
+    return markerClusterGroup;
+}
+
 
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function () {
@@ -152,7 +163,7 @@ window.addEventListener('DOMContentLoaded', async function () {
 
     // Add all four layers to map 
     let hospitalMarkerClusterLayer = L.markerClusterGroup().addTo(map)
-    let gslMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let gslMarkerClusterLayer = createMarkerClusterGroup('gslMarkerClusterIcon').addTo(map)
     let pmedMarkerClusterLayer = L.markerClusterGroup().addTo(map)
     let pomMarkerClusterLayer = L.markerClusterGroup().addTo(map)
 
@@ -169,9 +180,9 @@ window.addEventListener('DOMContentLoaded', async function () {
 
     // Function to render map to initial display 
     initialDisplay = function () {
-        if(map.hasLayer(pmedMarkerClusterLayer) || map.hasLayer(pomMarkerClusterLayer)){
+        if (map.hasLayer(pmedMarkerClusterLayer) || map.hasLayer(pomMarkerClusterLayer)) {
             map.removeLayer(pmedMarkerClusterLayer);
-            map.removeLayer(pomMarkerClusterLayer); 
+            map.removeLayer(pomMarkerClusterLayer);
         }
         if (!map.hasLayer(gslMarkerClusterLayer)) {
             map.addLayer(gslMarkerClusterLayer)
