@@ -149,7 +149,11 @@ function removeLayer(layer) {
 function createMarkerClusterGroup(className) {
     let markerClusterGroup = L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
-            return L.divIcon({ html: cluster.getChildCount(), className: className, iconSize: L.point(40, 40) })
+            if(cluster.getChildCount() < 15){
+                return L.divIcon({ html: `${cluster.getChildCount()}`, className: className + '-small', iconSize: L.point(35, 35)})
+            } else{
+                return L.divIcon({ html: `${cluster.getChildCount()}`, className: className + '-medium', iconSize: L.point(45, 45)})
+            }
         }
     });
     return markerClusterGroup;
@@ -162,20 +166,20 @@ window.addEventListener('DOMContentLoaded', async function () {
     console.log(response.data.features)
 
     // Add all four layers to map 
-    let hospitalMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let hospitalLayerGroup = L.layerGroup().addTo(map)
     let gslMarkerClusterLayer = createMarkerClusterGroup('gslMarkerClusterIcon').addTo(map)
-    let pmedMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let pmedMarkerClusterLayer = createMarkerClusterGroup('pmedMarkerClusterIcon').addTo(map)
     let pomMarkerClusterLayer = L.markerClusterGroup().addTo(map)
 
     // Add geoJson to respective cluster group 
-    let hospital = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(hospitalMarkerClusterLayer)
+    let hospital = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(hospitalLayerGroup)
     let gsl = displayGeojson(response.data, gslMarker).addTo(gslMarkerClusterLayer)
     let pmed = displayGeojson(response.data, pharmacyMarker).addTo(pmedMarkerClusterLayer)
     let pom = displayGeojson(response.data, hospitalMarker).addTo(pomMarkerClusterLayer)
 
     // Hospital layer add to overlay 
     L.control.layers({}, {
-        'Hospital': hospitalMarkerClusterLayer,
+        'Hospital': hospitalLayerGroup,
     }).addTo(map)
 
     // Function to render map to initial display 
@@ -187,8 +191,8 @@ window.addEventListener('DOMContentLoaded', async function () {
         if (!map.hasLayer(gslMarkerClusterLayer)) {
             map.addLayer(gslMarkerClusterLayer)
         }
-        if (!map.hasLayer(hospitalMarkerClusterLayer)) {
-            map.addLayer(hospitalMarkerClusterLayer)
+        if (!map.hasLayer(hospitalLayerGroup)) {
+            map.addLayer(hospitalLayerGroup)
         }
     }
 
