@@ -1,0 +1,113 @@
+/* GSL */
+.gslMarkerClusterIcon-small{
+    border-radius: 50%;
+    background-color: rgba(206, 121, 107, 0.6); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gslMarkerClusterIcon-medium{
+    border-radius: 50%;
+    background-color: rgba(206, 121, 107, 0.6); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gslMarkerClusterIcon-small-p{
+    height: 25px;
+    width: 25px; 
+    border-radius: 50%;
+    background-color: rgba(206, 121, 107, 0.5);
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gslMarkerClusterIcon-medium-p{
+    height: 35px;
+    width: 35px; 
+    border-radius: 50%;
+    background-color: rgba(206, 121, 107, 1);
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* PMed */
+.pmedMarkerClusterIcon-small{
+    border-radius: 50%;
+    background-color: rgba(243, 223, 162, 0.6); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pmedMarkerClusterIcon-medium{
+    border-radius: 50%;
+    background-color: rgba(243, 223, 162, 0.6); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pmedMarkerClusterIcon-small-p{
+    height: 25px;
+    width: 25px; 
+    border-radius: 50%;
+    background-color: rgba(243, 223, 162, 0.5);
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pmedMarkerClusterIcon-medium-p{
+    height: 35px;
+    width: 35px; 
+    border-radius: 50%;
+    background-color: rgba(243, 223, 162, 1);
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* POM */
+.pomMarkerClusterIcon-small{
+    border-radius: 50%;
+    background-color: rgba(187, 68, 48, 0.6); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pomMarkerClusterIcon-medium{
+    border-radius: 50%;
+    background-color: rgba(187, 68, 48, 0.6); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pomMarkerClusterIcon-small-p{
+    height: 25px;
+    width: 25px; 
+    border-radius: 50%;
+    background-color: rgba(187, 68, 48, 0.5);
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.pomMarkerClusterIcon-medium-p{
+    height: 35px;
+    width: 35px; 
+    border-radius: 50%;
+    background-color: rgba(187, 68, 48, 1);
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -96,21 +96,10 @@ function displayGeojson(responseData, markerIcon, hospital = null) {
             let div = document.createElement('div');
             div.innerHTML = feature.properties.Description;
             let allTd = div.querySelectorAll('td')
+            console.log(allTd)
             layer.bindPopup(`
-            <div class="accordion" id="accordian">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="pharmacyDetails">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pharmacyDetails" aria-expanded="true" aria-controls="pharmacyDetails">
-                            ${allTd[6].innerHTML}
-                        </button>
-                    </h2>
-                    <div id="pharmacyDetails" class="accordion-collapse collapse show" aria-labelledby="pharmacyDetails" data-bs-parent="#accordian">
-                        <div class="accordion-body">
-                        Address: ${allTd[4].innerHTML} SINGAPORE ${allTd[0].innerHTML}
-                        </div>
-                    </div>
-                </div>
-            </div>`) //To fix accordian and insert image 
+            Pharmacy Name: ${allTd[6].innerHTML}
+            Address: ${allTd[4].innerHTML} SINGAPORE ${allTd[0].innerHTML}`) //To fix accordian and insert image 
         }
     })
 
@@ -150,9 +139,9 @@ function createMarkerClusterGroup(className) {
     let markerClusterGroup = L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
             if(cluster.getChildCount() < 15){
-                return L.divIcon({ html: `${cluster.getChildCount()}`, className: className + '-small', iconSize: L.point(35, 35)})
+                return L.divIcon({ html: `<div class='${className}-small-p'>${cluster.getChildCount()}</div>`, className: className + '-small', iconSize: L.point(35, 35)})
             } else{
-                return L.divIcon({ html: `${cluster.getChildCount()}`, className: className + '-medium', iconSize: L.point(45, 45)})
+                return L.divIcon({ html: `<div class='${className}-medium-p'>${cluster.getChildCount()}</div>`, className: className + '-medium', iconSize: L.point(45, 45)})
             }
         }
     });
@@ -169,7 +158,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     let hospitalLayerGroup = L.layerGroup().addTo(map)
     let gslMarkerClusterLayer = createMarkerClusterGroup('gslMarkerClusterIcon').addTo(map)
     let pmedMarkerClusterLayer = createMarkerClusterGroup('pmedMarkerClusterIcon').addTo(map)
-    let pomMarkerClusterLayer = L.markerClusterGroup().addTo(map)
+    let pomMarkerClusterLayer = createMarkerClusterGroup('pomMarkerClusterIcon').addTo(map)
 
     // Add geoJson to respective cluster group 
     let hospital = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(hospitalLayerGroup)

@@ -1,60 +1,3 @@
-// Load and convert CSV to JSON 
-async function loadData() {
-    let response = await axios.get('./datasets/listing-of-registered-therapeutic-products.csv');
-    let json = await csv().fromString(response.data);
-    return json
-}
-
-// Filter search function
-async function filterSearch(k, v) {
-    let data = await loadData();
-
-    // return array of objects with relevant keys and values
-    let filteredArr = data.filter((object) => {
-        return typeof object[k] == 'string' && object[k].toLowerCase().includes(v)
-    })
-
-    return filteredArr
-}
-
-// Filter which layer to display 
-function filterHospital(arr) {
-    let nonInsulinInjArr = arr.filter((object) => {
-        return typeof object['dosage_form'] == 'string' && (object['dosage_form'].toLowerCase().includes('injection') && !object['active_ingredients'].toLowerCase().includes('insulin'))
-    })
-
-    let opioidArr = arr.filter((object) => {
-        return typeof object['atc_code'] == 'string' && (object['atc_code'].includes('N02A') && !object['active_ingredients'].toLowerCase().includes('tramadol') && !object['active_ingredients'].toLowerCase().includes('codeine'))
-    })
-
-    displayHospitalArr = nonInsulinInjArr.concat(opioidArr)
-
-    return displayHospitalArr
-}
-
-function filterClassification(arr) {
-    let classificationArr = arr.map((object) => {
-        return object['forensic_classification']
-    })
-
-    let uniqueClassificationArr = classificationArr.filter((str, i, arr) => {
-        return arr.indexOf(str) === i
-    })
-
-    return uniqueClassificationArr
-}
-
-// Sorting function for table data - W3School sort table 
-
-// Create table data (td) function
-function createTableData(arr, i, k) {
-    let td = document.createElement('td')
-    td.innerHTML = arr[i][k]
-    td.classList.add(k)
-
-    return td
-}
-
 // Display search results when 'Enter' key pressed 
 let search = document.querySelector('#search')
 search.addEventListener('keydown', async function (event) {
@@ -80,6 +23,9 @@ search.addEventListener('keydown', async function (event) {
         document.querySelector('table').classList.remove('d-none')
         let tbody = document.querySelector('tbody')
         tbody.innerHTML = ""
+
+        let accordionContainer = document.querySelector('#accordion')
+        accordionContainer.innerHTML = ''
 
         for (let i = 0; i < combinedFilteredArr.length; i++) {
             let tr = document.createElement('tr')
@@ -113,7 +59,26 @@ search.addEventListener('keydown', async function (event) {
             tr.appendChild(td3)
             tr.appendChild(td4)
             tr.appendChild(td5)
+
+            // Insert Accordion
+
+            let accordionItem = document.createElement('div')
+            accordionItem.className = 'accordion-item'
+            accordionItem.innerHTML = `
+                <h2 class="accordion-header" id="heading-${i}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${i}" aria-expanded="true" aria-controls="collapse-${i}">
+                        ${combinedFilteredArr[i]['product_name']}
+                    </button>
+                </h2>
+                <div id="collapse-${i}" class="accordion-collapse collapse" aria-labelledby="heading-${i}">
+                    <div class="accordion-body">
+                        ${combinedFilteredArr[i]['forensic_classification']}
+                    </div>
+                </div>`
+            accordionContainer.appendChild(accordionItem)
         }
+
+        document.querySelector('#collapse-0').classList.add('show')
 
         // Reset map 
         initialDisplay()
@@ -123,32 +88,32 @@ search.addEventListener('keydown', async function (event) {
         let displayPmed = false;
         let displayPom = false;
 
-        for (let classification of filterClassification(combinedFilteredArr)){
-            if (classification.toLowerCase().includes('prescription')){
+        for (let classification of filterClassification(combinedFilteredArr)) {
+            if (classification.toLowerCase().includes('prescription')) {
                 displayPom = true
             }
-            if (classification.toLowerCase().includes('pharmacy')){
+            if (classification.toLowerCase().includes('pharmacy')) {
                 displayPmed = true
             }
-            if (classification.toLowerCase().includes('general')){
+            if (classification.toLowerCase().includes('general')) {
                 displayGsl = true
             }
         }
 
         console.log(displayGsl, displayPmed, displayPom, filterClassification(combinedFilteredArr))
 
-        if(displayPom){
+        if (displayPom) {
             removeGsl();
             addPom();
         }
 
-        if(displayPmed){
+        if (displayPmed) {
             removeGsl();
             removePom();
             addPmed();
         }
 
-        if(displayGsl){
+        if (displayGsl) {
             initialDisplay();
         }
 
@@ -169,71 +134,27 @@ search.addEventListener('keydown', async function (event) {
             removePom();
         }
     }
-}) 
+})
 
-function sortTable(n){
-    let switchCount = 0; 
-    let table = document.querySelector('#drug-table');
-    let switching = true; 
-    let dir = 'ascending';
-
-    while(switching){
-        switching = false; 
-        let rows = table.rows;
-
-        let shouldSwitch = false;
-        let row_1 = null;
-        let row_2 = null; 
-        for (let i = 1; i < (rows.length - 1); i++){
-
-            row_1 = rows[i]
-            row_2 = rows[i + 1]
-
-            if (dir == 'ascending'){
-                if (row_1.childNodes[n].innerHTML > row_2.childNodes[n].innerHTML){
-                    shouldSwitch = true; 
-                    break; 
-                }
-            } else if (dir == 'descending'){
-                if (row_1.childNodes[n].innerHTML < row_2.childNodes[n].innerHTML){
-                    shouldSwitch = true; 
-                    break; 
-                }
-            }
-        } 
-
-        if (shouldSwitch){
-            row_1.parentNode.insertBefore(row_2, row_1);
-            switching = true;
-            switchCount++; 
-        } else {
-            if (switchCount == 0 && dir == 'ascending'){ //Why this line 
-                dir = 'descending';
-                switching = true; 
-            }
-        }
-    }
-}
-
-document.querySelector('#sort-name-ascending').addEventListener('click', function(){
+document.querySelector('#sort-name-ascending').addEventListener('click', function () {
     document.querySelector('.fa-angle-up').style.display = 'none';
     document.querySelector('.fa-angle-down').style.display = 'inline-block'
     sortTable(0)
 })
 
-document.querySelector('#sort-name-descending').addEventListener('click', function(){
+document.querySelector('#sort-name-descending').addEventListener('click', function () {
     document.querySelector('.fa-angle-up').style.display = 'inline-block';
     document.querySelector('.fa-angle-down').style.display = 'none'
     sortTable(0)
 })
 
-document.querySelector('#sort-classification-ascending').addEventListener('click', function(){
+document.querySelector('#sort-classification-ascending').addEventListener('click', function () {
     document.querySelector('.fa-angle-up').style.display = 'none';
     document.querySelector('.fa-angle-down').style.display = 'inline-block'
     sortTable(3)
 })
 
-document.querySelector('#sort-classification-descending').addEventListener('click', function(){
+document.querySelector('#sort-classification-descending').addEventListener('click', function () {
     document.querySelector('.fa-angle-up').style.display = 'inline-block';
     document.querySelector('.fa-angle-down').style.display = 'none'
     sortTable(3)

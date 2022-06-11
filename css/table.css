@@ -1,0 +1,27 @@
+table {
+    table-layout: fixed;
+}
+
+td {
+    word-wrap: break-word;
+    white-space: normal;
+    /* min-width: 160px; */
+    /* max-width: 160px; */
+}
+
+.fa-angle-up{
+    display: inline-block; 
+    margin-left: 10px;
+}
+
+.fa-angle-down{
+    display: none; 
+    margin-left: 10px;
+}
+
+.fa-angle-up:hover, .fa-angle-down:hover{
+    border: 1px solid black; 
+    background-color: black;
+    color: white;
+    border-radius: 2px;
+}
