@@ -102,7 +102,11 @@ function sortTable(n){
 function createAlert(color, message, class_name=null){
     document.querySelector('#alert-container').innerHTML = `
     <div class="alert alert-${color} alert-dismissible fade show w-100 ${class_name}" role="alert">
-        ${message} 
+        ${message} <a href='#legend-container' class='show-legend'><i class="fa-solid fa-circle-info ms-1"></i></a>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`
+    document.querySelector('.show-legend').addEventListener('click', function(){
+        document.querySelector('#legend-container').classList.add('pt-5', 'pb-5');
+        document.querySelector('#legend-container').style.maxHeight = '500px'
+    })
 }

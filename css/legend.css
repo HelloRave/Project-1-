@@ -1,0 +1,25 @@
+.gsl-legend-icon{
+    color: blue;
+}
+.pmed-legend-icon{
+    color: yellow;
+}
+.pom-legend-icon{
+    color: red; 
+}
+.hospital-legend-icon{
+    color: red; 
+}
+
+#legend-container{
+    max-height: 0px; 
+    overflow: hidden;
+    transition: max-height 1s;
+    /* position: relative;  */
+}
+
+/* .btn-close-legend{
+    position: absolute; 
+    top: -20px;
+    right: 0;
+} */

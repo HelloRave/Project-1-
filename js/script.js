@@ -22,7 +22,7 @@ search.addEventListener('keydown', async function (event) {
         if (combinedFilteredArr.length == 0) {
             createAlert('danger', 'Medication Not Available in Singapore');
             document.querySelector('.table-alert').style.display = 'block' //WORK ON MOBILE RESPONSIVENESS
-        } 
+        }
 
         // To display filteredArr on table 
         document.querySelector('table').classList.remove('d-none')
@@ -82,10 +82,10 @@ search.addEventListener('keydown', async function (event) {
             accordionContainer.appendChild(accordionItem)
         }
 
-        if (combinedFilteredArr.length > 0){
+        if (combinedFilteredArr.length > 0) {
             document.querySelector('#collapse-0').classList.add('show')
         }
-       
+
         // Reset map 
         initialDisplay()
 
@@ -109,34 +109,34 @@ search.addEventListener('keydown', async function (event) {
         console.log(displayGsl, displayPmed, displayPom, filterClassification(combinedFilteredArr))
 
         if (displayPom) {
-            createAlert('success', 'POM')
+            createAlert('success', 'This is a <strong>Prescription Only Medication</strong>')
             removeGsl();
             addPom();
         }
 
         if (displayPmed) {
-            createAlert('info', 'PMed')
+            createAlert('info', 'This is a <strong>Pharmacy Only Medication</strong>')
             removeGsl();
             removePom();
             addPmed();
         }
 
         if (displayGsl) {
-            createAlert('warning', 'GSL')
+            createAlert('warning', 'This is under <strong>General Sales List</strong>')
             initialDisplay();
         }
-        
-        if(displayGsl && displayPmed){
-            createAlert('danger', 'PMed/GSL')
+
+        if (displayGsl && displayPmed) {
+            createAlert('danger', 'This medication is available under either <strong>Pharmacy Only Medication</strong> or <strong>General Sales List</strong>. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
         }
 
-        if(displayPom && displayPmed){
-            createAlert('secondary', 'PMed/POM')
-        } 
+        if (displayPom && displayPmed) {
+            createAlert('secondary', 'This medication is available under either <strong>Prescription Only Medication</strong> or <strong>Pharmacy Only Medication</strong>. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
+        }
 
-        if(displayPom && displayPmed && displayGsl){
-            createAlert('danger', 'POM/PMED/GSL')
-        } 
+        if (displayPom && displayPmed && displayGsl) {
+            createAlert('danger', 'This medication is available as <strong>Prescription Only Medication</strong> or <strong>Pharmacy Only Medication</strong> or <strong>General Sales list</strong> item. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
+        }
 
         // Display FilteredArr on map based on forensic classification or dosage form or atc code
         let displayHospital = false;
@@ -150,16 +150,23 @@ search.addEventListener('keydown', async function (event) {
 
         // Show hospital markers only if criteria met for classification/dosage form/atc code
         if (displayHospital) {
-            createAlert('primary', 'Hospital')
+            createAlert('primary', 'This medication is only available in the <strong>hospital</strong>')
             removeGsl();
             removePmed();
             removePom();
         }
+
+        // Adding search history into dropdown
+        let dropdownItem = document.createElement('li')
+        dropdownItem.className = 'dropdown-item'
+        dropdownItem.innerHTML = search.value
+        document.querySelector('.dropdown-menu').appendChild(dropdownItem)
     }
 })
 
+// Sort table based on brand name 
 document.querySelector('#brand-name').addEventListener('click', function () {
-    if (document.querySelector('.fa-angle-up').style.display == 'inline-block'){
+    if (document.querySelector('.fa-angle-up').style.display == 'inline-block') {
         document.querySelector('.fa-angle-up').style.display = 'none'
         document.querySelector('.fa-angle-down').style.display = 'inline-block'
     } else {
@@ -169,6 +176,7 @@ document.querySelector('#brand-name').addEventListener('click', function () {
     sortTable(0)
 })
 
+// Sort table based on classification 
 document.querySelector('#sort-classification-ascending').addEventListener('click', function () {
     document.querySelector('.fa-angle-up').style.display = 'none';
     document.querySelector('.fa-angle-down').style.display = 'inline-block'
@@ -181,12 +189,20 @@ document.querySelector('#sort-classification-descending').addEventListener('clic
     sortTable(3)
 })
 
-document.querySelector('#collapse-btn').addEventListener('click', function(){
-    if (document.querySelector('#collapse-btn').ariaExpanded){
+// Adjust alert-container based on collapsible tab 
+document.querySelector('#collapse-btn').addEventListener('click', function () {
+    if (document.querySelector('#collapse-btn').ariaExpanded) {
         document.querySelector('#alert-container').style.top = '143px'
         console.log('true')
-    } 
-    if (!document.querySelector('#collapse-btn').ariaExpanded){
+    }
+    if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
         document.querySelector('#alert-container').style.top = '60px'
-    } //this does not work 
+    }
+})
+
+document.querySelector('.btn-close-legend').addEventListener('click', function(){
+    document.querySelector('#legend-container').style.maxHeight = 0;
+    document.querySelector('#legend-container').style.overflow = 'hidden';
+    document.querySelector('#legend-container').classList.remove('pt-5', 'pb-5');
+
 })
