@@ -25,3 +25,8 @@ td {
     color: white;
     border-radius: 2px;
 }
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}​

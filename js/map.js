@@ -21,17 +21,14 @@ function createMap() {
         accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw' //demo access token
     }).addTo(map);
 
-    // Current location on map
-    // setInterval(function (){
-    //     map.locate({setView: true, maxZoom: 18}, 5000)
-    // }) - super laggy 
-
     map.locate({ setView: false, maxZoom: 18 })
 
     function onLocationFound(e) {
-        var radius = e.accuracy;
+        var radius = Math.floor(e.accuracy);
 
-        L.marker(e.latlng).addTo(map)
+        L.marker(e.latlng, {
+            icon: currentLocationMarker
+        }).addTo(map)
             .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
         L.circle(e.latlng, 1000).addTo(map);
@@ -50,32 +47,18 @@ function createMap() {
 }
 
 // Customised Icon
-let rxFontawesomeIcon = L.divIcon({
-    html: '<i class="fa-solid fa-prescription"></i>',
-    iconSize: null,
-    className: 'div-icon'
-})
-// - to learn how to style 
-
 let MarkerIcon = L.Icon.extend({
     options: {
-        shadowUrl: '../images/markers/marker-shadow.png'
+        shadowUrl: '../images/markers/marker-shadow.png',
+        iconAnchor: [12,42],
+        popupAnchor: [0, -33]
     }
 })
 
 let hospitalMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-red.png' })
 let pharmacyMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-gold.png' })
 let gslMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-blue.png' })
-
-// let myIcon = L.icon({
-//     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
-//     shadowUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
-//     iconSize: [38, 95],
-//     iconAnchor: [22, 94],
-//     popupAnchor: [-3, -76],
-//     shadowSize: [68, 95],
-//     shadowAnchor: [22, 94]
-// });
+let currentLocationMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-grey.png' })
 
 // Display GeoJSON function 
 function displayGeojson(responseData, markerIcon, hospital = null) {
@@ -96,10 +79,9 @@ function displayGeojson(responseData, markerIcon, hospital = null) {
             let div = document.createElement('div');
             div.innerHTML = feature.properties.Description;
             let allTd = div.querySelectorAll('td')
-            console.log(allTd)
             layer.bindPopup(`
             Pharmacy Name: ${allTd[6].innerHTML}
-            Address: ${allTd[4].innerHTML} SINGAPORE ${allTd[0].innerHTML}`) //To fix accordian and insert image 
+            Address: ${allTd[4].innerHTML} SINGAPORE ${allTd[0].innerHTML}`) //To insert image 
         }
     })
 

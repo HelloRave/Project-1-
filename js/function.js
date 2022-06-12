@@ -97,3 +97,12 @@ function sortTable(n){
         }
     }
 }
+
+// Create alert function
+function createAlert(color, message, class_name=null){
+    document.querySelector('#alert-container').innerHTML = `
+    <div class="alert alert-${color} alert-dismissible fade show w-100 ${class_name}" role="alert">
+        ${message} 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>`
+}

@@ -15,9 +15,14 @@ search.addEventListener('keydown', async function (event) {
         let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
 
         // If no match, display message
+        let alertContainer = document.querySelector('#alert-container')
+        alertContainer.innerHTML = '';
+        document.querySelector('.table-alert').style.display = 'none'
+
         if (combinedFilteredArr.length == 0) {
-            document.querySelector('.alert').classList.remove('d-none')
-        }
+            createAlert('danger', 'Medication Not Available in Singapore');
+            document.querySelector('.table-alert').style.display = 'block' //WORK ON MOBILE RESPONSIVENESS
+        } 
 
         // To display filteredArr on table 
         document.querySelector('table').classList.remove('d-none')
@@ -42,8 +47,10 @@ search.addEventListener('keydown', async function (event) {
                 for (let i of split) {
                     i = i.toLowerCase();
                     let li = document.createElement('li')
+                    li.style.border = '1px solid black'
+                    li.style.marginBottom = '2px'
                     ul.appendChild(li)
-                    li.innerHTML = `<span> ${i} </span>`
+                    li.innerHTML = i
                 }
             }
             td2.classList.add('text-capitalize', 'active_ingredients')
@@ -51,14 +58,11 @@ search.addEventListener('keydown', async function (event) {
             let td3 = createTableData(combinedFilteredArr, i, 'dosage_form')
             td3.classList.add('d-none', 'd-lg-table-cell')
             let td4 = createTableData(combinedFilteredArr, i, 'forensic_classification')
-            let td5 = createTableData(combinedFilteredArr, i, 'atc_code')
-
 
             tr.appendChild(td1)
             tr.appendChild(td2)
             tr.appendChild(td3)
             tr.appendChild(td4)
-            tr.appendChild(td5)
 
             // Insert Accordion
 
@@ -78,8 +82,10 @@ search.addEventListener('keydown', async function (event) {
             accordionContainer.appendChild(accordionItem)
         }
 
-        document.querySelector('#collapse-0').classList.add('show')
-
+        if (combinedFilteredArr.length > 0){
+            document.querySelector('#collapse-0').classList.add('show')
+        }
+       
         // Reset map 
         initialDisplay()
 
@@ -103,19 +109,34 @@ search.addEventListener('keydown', async function (event) {
         console.log(displayGsl, displayPmed, displayPom, filterClassification(combinedFilteredArr))
 
         if (displayPom) {
+            createAlert('success', 'POM')
             removeGsl();
             addPom();
         }
 
         if (displayPmed) {
+            createAlert('info', 'PMed')
             removeGsl();
             removePom();
             addPmed();
         }
 
         if (displayGsl) {
+            createAlert('warning', 'GSL')
             initialDisplay();
         }
+        
+        if(displayGsl && displayPmed){
+            createAlert('danger', 'PMed/GSL')
+        }
+
+        if(displayPom && displayPmed){
+            createAlert('secondary', 'PMed/POM')
+        } 
+
+        if(displayPom && displayPmed && displayGsl){
+            createAlert('danger', 'POM/PMED/GSL')
+        } 
 
         // Display FilteredArr on map based on forensic classification or dosage form or atc code
         let displayHospital = false;
@@ -129,6 +150,7 @@ search.addEventListener('keydown', async function (event) {
 
         // Show hospital markers only if criteria met for classification/dosage form/atc code
         if (displayHospital) {
+            createAlert('primary', 'Hospital')
             removeGsl();
             removePmed();
             removePom();
@@ -136,15 +158,14 @@ search.addEventListener('keydown', async function (event) {
     }
 })
 
-document.querySelector('#sort-name-ascending').addEventListener('click', function () {
-    document.querySelector('.fa-angle-up').style.display = 'none';
-    document.querySelector('.fa-angle-down').style.display = 'inline-block'
-    sortTable(0)
-})
-
-document.querySelector('#sort-name-descending').addEventListener('click', function () {
-    document.querySelector('.fa-angle-up').style.display = 'inline-block';
-    document.querySelector('.fa-angle-down').style.display = 'none'
+document.querySelector('#brand-name').addEventListener('click', function () {
+    if (document.querySelector('.fa-angle-up').style.display == 'inline-block'){
+        document.querySelector('.fa-angle-up').style.display = 'none'
+        document.querySelector('.fa-angle-down').style.display = 'inline-block'
+    } else {
+        document.querySelector('.fa-angle-up').style.display = 'inline-block'
+        document.querySelector('.fa-angle-down').style.display = 'none'
+    }
     sortTable(0)
 })
 

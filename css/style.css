@@ -46,3 +46,11 @@
         display:none;
     }
 }
+
+#alert-container{
+    width: 400px;
+}
+
+.table-alert{
+    display:none;
+}
