@@ -180,3 +180,13 @@ document.querySelector('#sort-classification-descending').addEventListener('clic
     document.querySelector('.fa-angle-down').style.display = 'none'
     sortTable(3)
 })
+
+document.querySelector('#collapse-btn').addEventListener('click', function(){
+    if (document.querySelector('#collapse-btn').ariaExpanded){
+        document.querySelector('#alert-container').style.top = '143px'
+        console.log('true')
+    } 
+    if (!document.querySelector('#collapse-btn').ariaExpanded){
+        document.querySelector('#alert-container').style.top = '60px'
+    } //this does not work 
+})

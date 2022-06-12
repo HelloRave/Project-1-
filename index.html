@@ -38,13 +38,52 @@
 
     <!-- Map & Search -->
     <div id='map-container'>
+        <!-- Map -->
         <div id="map"></div>
+
+        <!-- Search -->
         <div id="search-container">
-            <input id='search' class='form-control me-1' type="text" placeholder="Name of medication">
-            <a href="/" class="btn btn-primary">Search</a>
+            <!-- Input & Buttons -->
+            <input id='search' class='form-control me-1 mb-1 mb-sm-0' type="text" placeholder="Name of medication">
+            <div id="buttons">
+                <a href="/" class="btn btn-primary me-sm-1">Search</a>
+                <button id="collapse-btn" class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse-text" aria-expanded="false" aria-controls="collapse-text">
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+            </div>
         </div>
+
+        <!-- More Options/Collapsible Tab -->
+        <div class="collapse" id="collapse-text">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-item dropdown d-sm-inline-block me-sm-3 mb-2 mb-sm-0">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li>Action</li>
+                            <li>Another action</li>
+                            <li>Something else here</li>
+                        </ul>
+                    </div>
+                    <div class="card-item form-check d-sm-inline-block">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Pharmacy Near Me 
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert -->
         <div id='alert-container'>
         </div>
+
+        <!-- Legend -->
         <div id="legend-container">
             LEGEND
         </div>
@@ -81,7 +120,6 @@
 
     <!-- Search Result Accordion -->
     <section class="accordion" id="accordion">
-        
     </section>
 
     <!-- BootStrap -->

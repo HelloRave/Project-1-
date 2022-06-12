@@ -18,11 +18,27 @@
     display: flex; 
 }
 
+#buttons{
+    display: flex;
+}
+
+#collapse-text{
+    position: absolute; 
+    z-index: 314160;
+    top: 60px; 
+    left: 60px;
+}
+
+.card-item{
+    vertical-align:middle
+}
+
 #alert-container{
     position: absolute; 
     z-index: 314159;
     top: 60px; 
     left: 60px;
+    transition: top 0.5s
 }
 
 #legend-container{
@@ -35,13 +51,19 @@
     background-color: white;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 576px){
     #drug-table{
         display: none; 
     }
+    #search-container{
+        display: block; 
+    }
+    #buttons{
+        justify-content: space-evenly;
+    }
 }
 
-@media screen and (min-width: 600px){
+@media screen and (min-width: 576px){
     .accordion {
         display:none;
     }
