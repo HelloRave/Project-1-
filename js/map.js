@@ -24,14 +24,15 @@ function createMap() {
     map.locate({ setView: false, maxZoom: 18 })
 
     function onLocationFound(e) {
-        var radius = Math.floor(e.accuracy);
+        let radius = Math.floor(e.accuracy);
+        currentLocation = e.latlng
 
-        L.marker(e.latlng, {
+        L.marker(currentLocation, {
             icon: currentLocationMarker
         }).addTo(map)
             .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-        L.circle(e.latlng, 1000).addTo(map);
+        L.circle(currentLocation, 1000).addTo(map);
     }
 
     map.on('locationfound', onLocationFound);
@@ -89,6 +90,7 @@ function displayGeojson(responseData, markerIcon, hospital = null) {
 }
 
 // Nest displayGeojson under a layer when page loads
+let currentLocation = null;
 let map = createMap()
 let initialDisplay = null;
 let removeGsl = null;
@@ -176,5 +178,14 @@ window.addEventListener('DOMContentLoaded', async function () {
 
     // Set map as initial display to prevent all four layers from displaying together 
     initialDisplay()
+})
+
+let checkBox = document.querySelector('#nearby-pharmacy')
+checkBox.addEventListener('change', function(){
+    if (checkBox.checked){
+        map.flyTo(currentLocation, 16);
+    } else {
+        map.flyTo([1.3521, 103.8198], 12)
+    }
 })
 
