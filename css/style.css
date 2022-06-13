@@ -12,28 +12,31 @@
 }
 
 #search-container{
-    width: 384px;
+    width: 192px; 
     position: absolute; 
     z-index: 314159;
     top: 12px; 
     left: 60px; 
-    display: flex; 
 }
 
 #buttons{
     display: flex;
 }
 
+#search-btn{
+    flex-grow: 2;
+}
+
 #collapse-text{
-    width: 384px; 
+    width: 192px;
     position: absolute; 
     z-index: 314160;
-    top: 60px; 
+    top: 100px; 
     left: 60px;
 }
 
 .card-body{
-    text-align: center;
+    text-align: left;
 }
 
 .card-item{
@@ -53,19 +56,23 @@
     display:none;
 }
 
-/* Weird display at 576px */
-@media screen and (max-width: 576px){
-    #drug-table{
-        display: none; 
-    }
+#drug-table{
+    display: none; 
+}
+
+@media screen and (min-width: 576px){
     #search-container{
-        width: 192px; 
-        display: block; 
+        width: 384px;
+        display: flex; 
     }
+
     #collapse-text{
-        width: 192px;
+        width: 384px; 
+        top: 60px; 
+        left: 60px;
     }
+    
     .card-body{
-        text-align: left;
+        text-align: center;
     }
 } 
