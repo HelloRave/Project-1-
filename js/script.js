@@ -14,24 +14,23 @@ search.addEventListener('keydown', async function (event) {
         let filteredArr_2 = await filterSearch('active_ingredients', searchValue)
         let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
 
-        // If no match, display message
-        let alertContainer = document.querySelector('#alert-container')
-        alertContainer.innerHTML = '';
-        document.querySelector('.table-alert').style.display = 'none'
-
-        if (combinedFilteredArr.length == 0) {
-            createAlert('danger', 'Medication Not Available in Singapore');
-            document.querySelector('.table-alert').style.display = 'block' //WORK ON MOBILE RESPONSIVENESS
-        }
-
-        // To display filteredArr on table 
-        document.querySelector('table').classList.remove('d-none')
+        document.querySelector('table').classList.add('d-sm-table')
         let tbody = document.querySelector('tbody')
         tbody.innerHTML = ""
 
         let accordionContainer = document.querySelector('#accordion')
         accordionContainer.innerHTML = ''
 
+        // If no match, display message
+        let alertContainer = document.querySelector('#alert-container')
+        alertContainer.innerHTML = '';
+
+        if (combinedFilteredArr.length == 0) {
+            createAlert('danger', 'Medication Not Available in Singapore');//WORK ON MOBILE RESPONSIVENESS
+            document.querySelector('table').classList.add('d-none')
+        }
+
+        // To display filteredArr on table 
         for (let i = 0; i < combinedFilteredArr.length; i++) {
             let tr = document.createElement('tr')
             tr.id = `row-${i}`
@@ -191,12 +190,21 @@ document.querySelector('#sort-classification-descending').addEventListener('clic
 
 // Adjust alert-container based on collapsible tab 
 document.querySelector('#collapse-btn').addEventListener('click', function () {
-    if (document.querySelector('#collapse-btn').ariaExpanded) {
-        document.querySelector('#alert-container').style.top = '143px'
-        console.log('true')
-    }
-    if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
-        document.querySelector('#alert-container').style.top = '60px'
+    let windowSize = window.matchMedia("(min-width: 576px)")
+    if (windowSize.matches){
+        if (document.querySelector('#collapse-btn').ariaExpanded) {
+            document.querySelector('#alert-container').style.top = '143px'
+        }
+        if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
+            document.querySelector('#alert-container').style.top = '60px'
+        }
+    } else{
+        if (document.querySelector('#collapse-btn').ariaExpanded) {
+            document.querySelector('#alert-container').style.top = '240px'
+        }
+        if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
+            document.querySelector('#alert-container').style.top = '100px'
+        }
     }
 })
 

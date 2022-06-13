@@ -44,20 +44,12 @@
 }
 
 #alert-container{
-    width: 384px; 
+    width: 192px; 
     position: absolute; 
     z-index: 314159;
-    top: 60px; 
+    top: 100px;  
     left: 60px;
     transition: top 0.35s;
-}
-
-.table-alert{
-    display:none;
-}
-
-#drug-table{
-    display: none; 
 }
 
 @media screen and (min-width: 576px){
@@ -69,10 +61,14 @@
     #collapse-text{
         width: 384px; 
         top: 60px; 
-        left: 60px;
     }
     
     .card-body{
         text-align: center;
+    }
+
+    #alert-container{
+        width: 384px;
+        top: 60px;
     }
 } 
