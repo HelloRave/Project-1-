@@ -190,21 +190,13 @@ document.querySelector('#sort-classification-descending').addEventListener('clic
 
 // Adjust alert-container based on collapsible tab 
 document.querySelector('#collapse-btn').addEventListener('click', function () {
-    let windowSize = window.matchMedia("(min-width: 576px)")
-    if (windowSize.matches){
-        if (document.querySelector('#collapse-btn').ariaExpanded) {
-            document.querySelector('#alert-container').style.top = '143px'
-        }
-        if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
-            document.querySelector('#alert-container').style.top = '60px'
-        }
-    } else{
-        if (document.querySelector('#collapse-btn').ariaExpanded) {
-            document.querySelector('#alert-container').style.top = '240px'
-        }
-        if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
-            document.querySelector('#alert-container').style.top = '100px'
-        }
+    if (document.querySelector('#collapse-btn').ariaExpanded) {
+        document.querySelector('#alert-container').style.top = '143px'
+        document.querySelector('#alert-container-sm').style.top = '240px'
+    }
+    if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
+        document.querySelector('#alert-container').style.top = '60px'
+        document.querySelector('#alert-container-sm').style.top = '100px'
     }
 })
 

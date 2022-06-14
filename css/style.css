@@ -44,6 +44,15 @@
 }
 
 #alert-container{
+    width: 384px; 
+    position: absolute; 
+    z-index: 314159;
+    top: 60px;  
+    left: 60px;
+    transition: top 0.35s;
+}
+
+#alert-container-sm{
     width: 192px; 
     position: absolute; 
     z-index: 314159;
@@ -67,8 +76,4 @@
         text-align: center;
     }
 
-    #alert-container{
-        width: 384px;
-        top: 60px;
-    }
 } 
