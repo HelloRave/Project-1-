@@ -1,3 +1,7 @@
+
+// Cache results
+let cache = [];
+
 // Display search results when 'Enter' key pressed 
 let search = document.querySelector('#search')
 search.addEventListener('keydown', async function (event) {
@@ -160,6 +164,10 @@ search.addEventListener('keydown', async function (event) {
         dropdownItem.className = 'dropdown-item'
         dropdownItem.innerHTML = search.value
         document.querySelector('.dropdown-menu').appendChild(dropdownItem)
+
+        // Transfer results to cache
+        cache.push(tbody, accordionContainer, alertContainer)
+        console.log(cache)
     }
 })
 
