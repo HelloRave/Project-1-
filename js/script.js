@@ -161,15 +161,21 @@ search.addEventListener('keydown', async function (event) {
 
         // Adding search history into dropdown
         let dropdownItem = document.createElement('li')
-        dropdownItem.className = 'dropdown-item'
-        dropdownItem.innerHTML = search.value
+        dropdownItem.innerHTML = `<a class="dropdown-item" href="#">${search.value}</a>`
         document.querySelector('.dropdown-menu').appendChild(dropdownItem)
+        dropdownItem.addEventListener('click', function () {
+            alert('hello')
+        })
 
         // Transfer results to cache
-        cache.push(tbody, accordionContainer, alertContainer)
+        cache.push(accordionContainer, alertContainer)
         console.log(cache)
+
+    
     }
 })
+
+
 
 // Sort table based on brand name 
 document.querySelector('#brand-name').addEventListener('click', function () {
@@ -208,7 +214,7 @@ document.querySelector('#collapse-btn').addEventListener('click', function () {
     }
 })
 
-document.querySelector('.btn-close-legend').addEventListener('click', function(){
+document.querySelector('.btn-close-legend').addEventListener('click', function () {
     document.querySelector('#legend-container').style.maxHeight = 0;
     document.querySelector('#legend-container').style.overflow = 'hidden';
     document.querySelector('#legend-container').classList.remove('pt-5', 'pb-5');
