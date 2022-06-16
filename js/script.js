@@ -1,6 +1,5 @@
-
-// Cache results
-let cache = [];
+//Cache
+let cache = {}
 
 // Display search results when 'Enter' key pressed 
 let search = document.querySelector('#search')
@@ -163,20 +162,18 @@ search.addEventListener('keydown', async function (event) {
         let dropdownItem = document.createElement('li')
         dropdownItem.innerHTML = `<a class="dropdown-item" href="#">${search.value}</a>`
         document.querySelector('.dropdown-menu').appendChild(dropdownItem)
+
+        cache[`${search.value}`] = {
+            'tbody': tbody.cloneNode(true),
+            'accordionContainer': accordionContainer.cloneNode(true)
+        } //CORRECTED: key is correct but value is wrong - remains as latest - shallow copy 
+
         dropdownItem.addEventListener('click', function () {
-            alert('hello')
-            tbody.innerHTML = "";
-            tbody.appendChild(tr)
-            
-            accordionContainer.innerHTML = '';
-
+            // console.log(dropdownItem.innerText, cache, cache[dropdownItem.innerText])
+            // To add for accordion, alert container, input value, markercluster and markers 
+            tbody.remove()
+            document.querySelector('table').appendChild(cache[dropdownItem.innerText].tbody) 
         })
-
-        // Transfer results to cache
-        cache.push(accordionContainer, alertContainer)
-        console.log(cache)
-
-    
     }
 })
 
