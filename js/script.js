@@ -165,6 +165,11 @@ search.addEventListener('keydown', async function (event) {
         document.querySelector('.dropdown-menu').appendChild(dropdownItem)
         dropdownItem.addEventListener('click', function () {
             alert('hello')
+            tbody.innerHTML = "";
+            tbody.appendChild(tr)
+            
+            accordionContainer.innerHTML = '';
+
         })
 
         // Transfer results to cache
