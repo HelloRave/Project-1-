@@ -1,79 +1,80 @@
 @import url(./loader.css);
 @import url(./table.css);
-@import url(./marker-cluster.css); 
+@import url(./marker-cluster.css);
 @import url(./legend.css);
+@import url(./toggle.css);
 
 #map {
     height: 100vh;
 }
 
-#map-container{
+#map-container {
     position: relative;
 }
 
-#search-container{
-    width: 192px; 
-    position: absolute; 
+#search-container {
+    width: 192px;
+    position: absolute;
     z-index: 314159;
-    top: 12px; 
-    left: 60px; 
+    top: 12px;
+    left: 60px;
 }
 
-#buttons{
+#buttons {
     display: flex;
 }
 
-#search-btn{
+#search-btn {
     flex-grow: 2;
 }
 
-#collapse-text{
+#collapse-text {
     width: 192px;
-    position: absolute; 
+    position: absolute;
     z-index: 314160;
-    top: 100px; 
+    top: 100px;
     left: 60px;
 }
 
-.card-body{
+.card-body {
     text-align: left;
 }
 
-.card-item{
-    vertical-align:middle
+.card-item {
+    vertical-align: middle
 }
 
-#alert-container{
-    width: 384px; 
-    position: absolute; 
+#alert-container {
+    width: 384px;
+    position: absolute;
     z-index: 314159;
-    top: 60px;  
+    top: 60px;
     left: 60px;
     transition: top 0.35s;
 }
 
-#alert-container-sm{
-    width: 192px; 
-    position: absolute; 
+#alert-container-sm {
+    width: 192px;
+    position: absolute;
     z-index: 314159;
-    top: 100px;  
+    top: 100px;
     left: 60px;
     transition: top 0.35s;
 }
 
-@media screen and (min-width: 576px){
-    #search-container{
+@media screen and (min-width: 576px) {
+    #search-container {
         width: 384px;
-        display: flex; 
+        display: flex;
     }
 
-    #collapse-text{
-        width: 384px; 
-        top: 60px; 
+    #collapse-text {
+        width: 384px;
+        top: 60px;
     }
-    
-    .card-body{
+
+    .card-body {
         text-align: center;
     }
 
-} 
+}

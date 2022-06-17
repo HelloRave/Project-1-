@@ -47,7 +47,7 @@ function filterClassification(arr) {
 // Create table data (td) function
 function createTableData(arr, i, k) {
     let td = document.createElement('td')
-    td.innerHTML = arr[i][k]
+    td.innerHTML = (arr[i][k]).toUpperCase()
     td.classList.add(k)
 
     return td

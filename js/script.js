@@ -10,6 +10,8 @@ search.addEventListener('keydown', async function (event) {
         document.querySelector('.fa-angle-up').style.display = 'inline-block';
         document.querySelector('.fa-angle-down').style.display = 'none'
 
+        document.querySelector('#toggle')
+
         // To filter data to match search value with product name or active ingredient
         let searchValue = search.value.toLowerCase()
 
@@ -17,7 +19,6 @@ search.addEventListener('keydown', async function (event) {
         let filteredArr_2 = await filterSearch('active_ingredients', searchValue)
         let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
 
-        document.querySelector('table').classList.add('d-sm-table')
         let tbody = document.querySelector('tbody')
         tbody.innerHTML = ""
 
@@ -27,11 +28,6 @@ search.addEventListener('keydown', async function (event) {
         // If no match, display message
         let alertContainer = document.querySelector('.alert-container')
         let alertContainerSm = document.querySelector('.alert-container-sm')
-
-        if (combinedFilteredArr.length == 0) {
-            createAlert('danger', 'Medication Not Available in Singapore');//WORK ON MOBILE RESPONSIVENESS
-            document.querySelector('table').classList.add('d-none')
-        }
 
         // To display filteredArr on table 
         for (let i = 0; i < combinedFilteredArr.length; i++) {
@@ -84,8 +80,12 @@ search.addEventListener('keydown', async function (event) {
             accordionContainer.appendChild(accordionItem)
         }
 
-        if (combinedFilteredArr.length > 0) {
+        if (combinedFilteredArr.length == 0) {
+            createAlert('danger', 'Medication Not Available in Singapore');//WORK ON MOBILE RESPONSIVENESS
+        } else{
             document.querySelector('#collapse-0').classList.add('show')
+            document.querySelector('table').classList.add('d-sm-table');
+            document.querySelector('#toggle').classList.add('d-sm-flex')
         }
 
         // Reset map 
