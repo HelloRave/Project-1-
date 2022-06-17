@@ -96,6 +96,7 @@ let initialDisplay = null;
 let removeGsl = null;
 let removePmed = null;
 let removePom = null;
+let removeHospital = null; 
 let addPmed = null;
 let addPom = null;
 
@@ -175,6 +176,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     removeGsl = removeLayer(gslMarkerClusterLayer);
     removePmed = removeLayer(pmedMarkerClusterLayer);
     removePom = removeLayer(pomMarkerClusterLayer)
+    removeHospital = removeLayer(hospitalLayerGroup)
 
     // Set map as initial display to prevent all four layers from displaying together 
     initialDisplay()

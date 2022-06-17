@@ -36,6 +36,39 @@
         <div id="loader-img"></div>
     </div>
 
+    <main id="landing" class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h1>MEDIMAP <i class="fa-solid fa-magnifying-glass"></i></h1>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-12">
+                <p class="d-inline-block">Popular Searches: </p>
+                <ul class="d-inline-block">
+                    <li class="d-inline-block m-2"><a href="/">Dermovate</a></li>
+                    <li class="d-inline-block m-2"><a href="/">Yasmin</a></li>
+                    <li class="d-inline-block m-2"><a href="/">Chlorpheniramine</a></li>
+                    <li class="d-inline-block m-2"><a href="/">Bactrim</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-12 d-flex">
+                <input class='form-control me-1 mb-1 mb-sm-0' type="text" placeholder="Name of medication">
+                <a href="/" id='search-btn' class="btn btn-primary me-1">Search</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex align-items-center justify-content-center contact-us">
+                <span class="mx-auto">Contact Us</span>
+                <div class="d-flex align-items-center justify-content-center icon-div"><i class="fa-solid fa-envelope"></i></div>
+            </div>
+        </div>
+            
+        
+    </main>
+
     <!-- Map & Search -->
     <div id='map-container'>
         <!-- Map -->
@@ -44,7 +77,7 @@
         <!-- Search -->
         <div id="search-container">
             <!-- Input & Buttons -->
-            <input id='search' class='form-control d-block d-sm-inline me-1 mb-1 mb-sm-0' type="text" placeholder="Name of medication">
+            <input id='search' class='form-control me-1 mb-1 mb-sm-0' type="text" placeholder="Name of medication">
             <div id="buttons">
                 <a href="/" id='search-btn' class="btn btn-primary me-1">Search</a>
                 <button id="collapse-btn" class="btn btn-primary" type="button" data-bs-toggle="collapse"
@@ -69,7 +102,7 @@
                     <div class="card-item form-check d-sm-inline-block">
                         <input class="form-check-input" type="checkbox" value="" id="nearby-pharmacy">
                         <label class="form-check-label" for="nearby-pharmacy">
-                            Pharmacies Near Me 
+                            Pharmacies Near Me
                         </label>
                     </div>
                 </div>
@@ -90,7 +123,7 @@
 
         <!-- Toggle to show table -->
         <div id="toggle" class="d-none">
-            <a href="#drug-table"><i id="toggle-border"class="fa-solid fa-angles-down"></i></a>
+            <a href="#drug-table"><i id="toggle-border" class="fa-solid fa-angles-down"></i></a>
         </div>
 
     </div>
@@ -101,18 +134,21 @@
         <div class="row">
             <div class="col-12 col-md-6 p-3 mb-3">
                 <i class="fa-solid fa-location-dot gsl-legend-icon me-1"></i>
-                <strong>General Sales List</strong>: Health products which can be purchased off the shelves, and are deemed to be reasonably safe to be used by the public for minor ailments without medical supervision.
+                <strong>General Sales List</strong>: Health products which can be purchased off the shelves, and are
+                deemed to be reasonably safe to be used by the public for minor ailments without medical supervision.
             </div>
             <div class="col-12 col-md-6 p-3 mb-3">
                 <i class="fa-solid fa-location-dot pmed-legend-icon me-1"></i>
-                <strong>Pharmacy Only Medication</strong>: Health products that can only be obtained from a pharmacist at a retail pharmacy. 
+                <strong>Pharmacy Only Medication</strong>: Health products that can only be obtained from a pharmacist
+                at a retail pharmacy.
             </div>
             <div class="col-12 col-md-6 p-3 mb-3">
                 <i class="fa-solid fa-location-dot pom-legend-icon me-1"></i>
-                <strong>Prescription Only Medication</strong>: Health products that can only be obtained from a doctor or a dentist, or from a pharmacist with a prescription from a doctor or a dentist.  
+                <strong>Prescription Only Medication</strong>: Health products that can only be obtained from a doctor
+                or a dentist, or from a pharmacist with a prescription from a doctor or a dentist.
             </div>
             <div class="col-12 col-md-6 p-3 mb-3">
-                <i class="fa-solid fa-location-dot hospital-legend-icon me-1"></i> 
+                <i class="fa-solid fa-location-dot hospital-legend-icon me-1"></i>
                 <strong>Hospital</strong>: Health products that can only be obtained from a doctor in the hospital.
             </div>
         </div>

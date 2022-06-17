@@ -80,18 +80,22 @@ search.addEventListener('keydown', async function (event) {
             accordionContainer.appendChild(accordionItem)
         }
 
+        // Reset map 
+        initialDisplay()
+        
         if (combinedFilteredArr.length == 0) {
             createAlert('danger', 'Medication Not Available in Singapore');
             document.querySelector('table').classList.remove('d-sm-table');
-            document.querySelector('#toggle').classList.remove('d-sm-flex')
+            document.querySelector('#toggle').classList.remove('d-sm-flex');
+            removeGsl();
+            removePmed();
+            removePom();
+            removeHospital();
         } else {
             document.querySelector('#collapse-0').classList.add('show')
             document.querySelector('table').classList.add('d-sm-table');
             document.querySelector('#toggle').classList.add('d-sm-flex')
         }
-
-        // Reset map 
-        initialDisplay()
 
         // Insert display gsl/pmed/pom here
         let displayGsl = false;
