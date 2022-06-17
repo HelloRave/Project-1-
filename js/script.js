@@ -21,12 +21,12 @@ search.addEventListener('keydown', async function (event) {
         let tbody = document.querySelector('tbody')
         tbody.innerHTML = ""
 
-        let accordionContainer = document.querySelector('#accordion')
+        let accordionContainer = document.querySelector('.accordion')
         accordionContainer.innerHTML = ''
 
         // If no match, display message
-        let alertContainer = document.querySelector('#alert-container')
-        alertContainer.innerHTML = '';
+        let alertContainer = document.querySelector('.alert-container')
+        let alertContainerSm = document.querySelector('.alert-container-sm')
 
         if (combinedFilteredArr.length == 0) {
             createAlert('danger', 'Medication Not Available in Singapore');//WORK ON MOBILE RESPONSIVENESS
@@ -152,7 +152,7 @@ search.addEventListener('keydown', async function (event) {
 
         // Show hospital markers only if criteria met for classification/dosage form/atc code
         if (displayHospital) {
-            createAlert('primary', 'This medication is only available in the <strong>hospital</strong>')
+             createAlert('primary', 'This medication is only available in the <strong>hospital</strong>')
             removeGsl();
             removePmed();
             removePom();
@@ -165,14 +165,22 @@ search.addEventListener('keydown', async function (event) {
 
         cache[`${search.value}`] = {
             'tbody': tbody.cloneNode(true),
-            'accordionContainer': accordionContainer.cloneNode(true)
+            'accordionContainer': accordionContainer.cloneNode(true),
+            'alertContainer': alertContainer.cloneNode(true),
+            'alertContainerSm': alertContainerSm.cloneNode(true)
         } //CORRECTED: key is correct but value is wrong - remains as latest - shallow copy 
 
         dropdownItem.addEventListener('click', function () {
-            // console.log(dropdownItem.innerText, cache, cache[dropdownItem.innerText])
-            // To add for accordion, alert container, input value, markercluster and markers 
-            tbody.remove()
+            // To add for markercluster and markers 
+            document.querySelector('tbody').remove()
             document.querySelector('table').appendChild(cache[dropdownItem.innerText].tbody) 
+            document.querySelector('.accordion').remove()
+            document.querySelector('#accordion').appendChild(cache[dropdownItem.innerText].accordionContainer) 
+            document.querySelector('#search').value = dropdownItem.innerText
+            document.querySelector('.alert-container').remove()
+            document.querySelector('#alert-container').appendChild(cache[dropdownItem.innerText].alertContainer) 
+            document.querySelector('.alert-container-sm').remove()
+            document.querySelector('#alert-container-sm').appendChild(cache[dropdownItem.innerText].alertContainerSm) 
         })
     }
 })
