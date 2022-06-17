@@ -81,8 +81,10 @@ search.addEventListener('keydown', async function (event) {
         }
 
         if (combinedFilteredArr.length == 0) {
-            createAlert('danger', 'Medication Not Available in Singapore');//WORK ON MOBILE RESPONSIVENESS
-        } else{
+            createAlert('danger', 'Medication Not Available in Singapore');
+            document.querySelector('table').classList.remove('d-sm-table');
+            document.querySelector('#toggle').classList.remove('d-sm-flex')
+        } else {
             document.querySelector('#collapse-0').classList.add('show')
             document.querySelector('table').classList.add('d-sm-table');
             document.querySelector('#toggle').classList.add('d-sm-flex')
@@ -95,6 +97,7 @@ search.addEventListener('keydown', async function (event) {
         let displayGsl = false;
         let displayPmed = false;
         let displayPom = false;
+        let displays = [];
 
         for (let classification of filterClassification(combinedFilteredArr)) {
             if (classification.toLowerCase().includes('prescription')) {
@@ -114,6 +117,8 @@ search.addEventListener('keydown', async function (event) {
             createAlert('success', 'This is a <strong>Prescription Only Medication</strong>')
             removeGsl();
             addPom();
+
+            displays.push(removeGsl, addPom)
         }
 
         if (displayPmed) {
@@ -121,11 +126,15 @@ search.addEventListener('keydown', async function (event) {
             removeGsl();
             removePom();
             addPmed();
+
+            displays.push(removeGsl, removePom, addPmed)
         }
 
         if (displayGsl) {
             createAlert('warning', 'This is under <strong>General Sales List</strong>')
             initialDisplay();
+            
+            displays = []
         }
 
         if (displayGsl && displayPmed) {
@@ -152,10 +161,12 @@ search.addEventListener('keydown', async function (event) {
 
         // Show hospital markers only if criteria met for classification/dosage form/atc code
         if (displayHospital) {
-             createAlert('primary', 'This medication is only available in the <strong>hospital</strong>')
+            createAlert('primary', 'This medication is only available in the <strong>hospital</strong>')
             removeGsl();
             removePmed();
             removePom();
+
+            displays.push(removeGsl, removePmed, removePom)
         }
 
         // Adding search history into dropdown
@@ -167,7 +178,8 @@ search.addEventListener('keydown', async function (event) {
             'tbody': tbody.cloneNode(true),
             'accordionContainer': accordionContainer.cloneNode(true),
             'alertContainer': alertContainer.cloneNode(true),
-            'alertContainerSm': alertContainerSm.cloneNode(true)
+            'alertContainerSm': alertContainerSm.cloneNode(true),
+            'displays': [...displays]
         } //CORRECTED: key is correct but value is wrong - remains as latest - shallow copy 
 
         dropdownItem.addEventListener('click', function () {
@@ -180,7 +192,20 @@ search.addEventListener('keydown', async function (event) {
             document.querySelector('.alert-container').remove()
             document.querySelector('#alert-container').appendChild(cache[dropdownItem.innerText].alertContainer) 
             document.querySelector('.alert-container-sm').remove()
-            document.querySelector('#alert-container-sm').appendChild(cache[dropdownItem.innerText].alertContainerSm) 
+            document.querySelector('#alert-container-sm').appendChild(cache[dropdownItem.innerText].alertContainerSm)
+            
+            document.querySelector('.show-legend').addEventListener('click', function(){
+                document.querySelector('#legend-container').classList.add('pt-5', 'pb-5');
+                document.querySelector('#legend-container').style.maxHeight = '500px'
+            })
+            
+            initialDisplay()
+
+            if (cache[dropdownItem.innerText].displays.length > 0){
+                for (let display of cache[dropdownItem.innerText].displays){
+                    display()
+                }
+            }
         })
     }
 })
