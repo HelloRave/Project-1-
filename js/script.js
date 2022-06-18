@@ -8,7 +8,9 @@ search.addEventListener('keydown', async function (event) {
     if (event.key == 'Enter') {
 
         document.querySelector('.fa-angle-up').style.display = 'inline-block';
-        document.querySelector('.fa-angle-down').style.display = 'none'
+        document.querySelector('.fa-angle-down').style.display = 'none';
+        document.querySelector('#sort-classification-ascending').style.display = 'inline-block';
+        document.querySelector('#sort-classification-descending').style.display = 'none';
 
         document.querySelector('#toggle')
 
@@ -212,33 +214,6 @@ search.addEventListener('keydown', async function (event) {
             }
         })
     }
-})
-
-
-
-// Sort table based on brand name 
-document.querySelector('#brand-name').addEventListener('click', function () {
-    if (document.querySelector('.fa-angle-up').style.display == 'inline-block') {
-        document.querySelector('.fa-angle-up').style.display = 'none'
-        document.querySelector('.fa-angle-down').style.display = 'inline-block'
-    } else {
-        document.querySelector('.fa-angle-up').style.display = 'inline-block'
-        document.querySelector('.fa-angle-down').style.display = 'none'
-    }
-    sortTable(0)
-})
-
-// Sort table based on classification 
-document.querySelector('#sort-classification-ascending').addEventListener('click', function () {
-    document.querySelector('.fa-angle-up').style.display = 'none';
-    document.querySelector('.fa-angle-down').style.display = 'inline-block'
-    sortTable(3)
-})
-
-document.querySelector('#sort-classification-descending').addEventListener('click', function () {
-    document.querySelector('.fa-angle-up').style.display = 'inline-block';
-    document.querySelector('.fa-angle-down').style.display = 'none'
-    sortTable(3)
 })
 
 // Adjust alert-container based on collapsible tab 

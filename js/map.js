@@ -7,19 +7,6 @@
 function createMap() {
     // Set up map view and bounds 
     let map = L.map('map')
-    map.setView([1.3521, 103.8198], 12)
-    map.setMaxBounds(L.latLngBounds([1.485448, 104.084908], [1.188641, 103.582865]))
-
-    // Tile Layer
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
-        minZoom: 11,
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',  // style of the tiles
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw' //demo access token
-    }).addTo(map);
 
     map.locate({ setView: false, maxZoom: 18 })
 
@@ -34,6 +21,25 @@ function createMap() {
 
         L.circle(currentLocation, 1000).addTo(map);
     }
+
+    if (window.matchMedia("(min-width: 768px)").matches) {
+        map.setView([1.3521, 103.8198], 12);
+    } else {
+        map.locate({ setView: true, maxZoom: 18 })
+    }
+
+    map.setMaxBounds(L.latLngBounds([1.485448, 104.084908], [1.188641, 103.582865]))
+
+    // Tile Layer
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
+        minZoom: 11,
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',  // style of the tiles
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw' //demo access token
+    }).addTo(map);
 
     map.on('locationfound', onLocationFound);
 
@@ -50,16 +56,24 @@ function createMap() {
 // Customised Icon
 let MarkerIcon = L.Icon.extend({
     options: {
-        shadowUrl: '../images/markers/marker-shadow.png',
-        iconAnchor: [12,42],
-        popupAnchor: [0, -33]
+        iconSize: [42, 50],
+        iconAnchor: [20, 50],
+        popupAnchor: [2, -40]
     }
 })
 
-let hospitalMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-red.png' })
-let pharmacyMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-gold.png' })
-let gslMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-blue.png' })
-let currentLocationMarker = new MarkerIcon({ iconUrl: '../images/markers/marker-icon-grey.png' })
+let testing = L.icon({
+    iconUrl: '../images/markers/pharmacy.png',
+    iconSize: [48, 48],
+    iconAnchor: [20, 50],
+    popupAnchor: [2, -40]
+})
+
+let hospitalMarker = new MarkerIcon({ iconUrl: '../images/markers/hospital.png' })
+let pomMarker = new MarkerIcon({ iconUrl: '../images/markers/doctors.png' })
+let pharmacyMarker = new MarkerIcon({ iconUrl: '../images/markers/pharmacy.png' })
+let gslMarker = new MarkerIcon({ iconUrl: '../images/markers/store.png' })
+let currentLocationMarker = new MarkerIcon({ iconUrl: '../images/markers/favorite.png' })
 
 // Display GeoJSON function 
 function displayGeojson(responseData, markerIcon, hospital = null) {
@@ -89,17 +103,6 @@ function displayGeojson(responseData, markerIcon, hospital = null) {
     return layer
 }
 
-// Nest displayGeojson under a layer when page loads
-let currentLocation = null;
-let map = createMap()
-let initialDisplay = null;
-let removeGsl = null;
-let removePmed = null;
-let removePom = null;
-let removeHospital = null; 
-let addPmed = null;
-let addPom = null;
-
 // Create/Remove layer function
 function createLayer(layer) {
     let create = function () {
@@ -123,10 +126,10 @@ function removeLayer(layer) {
 function createMarkerClusterGroup(className) {
     let markerClusterGroup = L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
-            if(cluster.getChildCount() < 15){
-                return L.divIcon({ html: `<div class='${className}-small-p'>${cluster.getChildCount()}</div>`, className: className + '-small', iconSize: L.point(35, 35)})
-            } else{
-                return L.divIcon({ html: `<div class='${className}-medium-p'>${cluster.getChildCount()}</div>`, className: className + '-medium', iconSize: L.point(45, 45)})
+            if (cluster.getChildCount() < 15) {
+                return L.divIcon({ html: `<div class='${className}-small-p'>${cluster.getChildCount()}</div>`, className: className + '-small', iconSize: L.point(35, 35) })
+            } else {
+                return L.divIcon({ html: `<div class='${className}-medium-p'>${cluster.getChildCount()}</div>`, className: className + '-medium', iconSize: L.point(45, 45) })
             }
         }
     });
@@ -140,7 +143,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     console.log(response.data.features)
 
     // Add all four layers to map 
-    let hospitalLayerGroup = L.layerGroup().addTo(map)
+    let hospitalLayerGroup = createMarkerClusterGroup('hospitalMarkerClusterIcon').addTo(map)
     let gslMarkerClusterLayer = createMarkerClusterGroup('gslMarkerClusterIcon').addTo(map)
     let pmedMarkerClusterLayer = createMarkerClusterGroup('pmedMarkerClusterIcon').addTo(map)
     let pomMarkerClusterLayer = createMarkerClusterGroup('pomMarkerClusterIcon').addTo(map)
@@ -149,7 +152,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     let hospital = displayGeojson(response.data, hospitalMarker, 'hospital').addTo(hospitalLayerGroup)
     let gsl = displayGeojson(response.data, gslMarker).addTo(gslMarkerClusterLayer)
     let pmed = displayGeojson(response.data, pharmacyMarker).addTo(pmedMarkerClusterLayer)
-    let pom = displayGeojson(response.data, hospitalMarker).addTo(pomMarkerClusterLayer)
+    let pom = displayGeojson(response.data, pomMarker).addTo(pomMarkerClusterLayer)
 
     // Hospital layer add to overlay 
     L.control.layers({}, {
@@ -182,9 +185,21 @@ window.addEventListener('DOMContentLoaded', async function () {
     initialDisplay()
 })
 
+// Nest displayGeojson under a layer when page loads
+let map = createMap();
+let currentLocation = null;
+let initialDisplay = null;
+let removeGsl = null;
+let removePmed = null;
+let removePom = null;
+let removeHospital = null;
+let addPmed = null;
+let addPom = null;
+
+// 'Pharmacy Near Me' Toggle 
 let checkBox = document.querySelector('#nearby-pharmacy')
-checkBox.addEventListener('change', function(){
-    if (checkBox.checked){
+checkBox.addEventListener('change', function () {
+    if (checkBox.checked) {
         map.flyTo(currentLocation, 16);
     } else {
         map.flyTo([1.3521, 103.8198], 12)

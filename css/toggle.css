@@ -2,7 +2,7 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(0,0,0,0.3);
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -10,6 +10,11 @@
     transform: translateX(-50%);
     justify-content: center;
     align-items: center;
+
+    animation-name: toggle-div-background-change;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
 }
 
 .fa-angles-down {
@@ -19,15 +24,15 @@
     -webkit-background-clip: text;
     color: transparent;
     background-image: linear-gradient(180deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-
-    animation-name: background-change;
+    
+    animation-name: icon-background-change;
     animation-duration: 2s;
     animation-iteration-count: infinite;
     animation-fill-mode: both;
 }
 
 
-@keyframes background-change {
+@keyframes icon-background-change {
     0% {
         background-image: linear-gradient(180deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     }
@@ -42,5 +47,23 @@
 
     100% {
         background-image: linear-gradient(180deg, #23d5ab,#23a6d5, #e73c7e, #ee7752);
+    }
+}
+
+@keyframes toggle-div-background-change {
+    0% {
+        background-color: rgba(0,0,0,0.3);
+    }
+
+    25% {
+        background-color: rgba(0,0,0,0.2);
+    }
+
+    50% {
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    100% {
+        background-color: rgba(0,0,0,0);
     }
 }
