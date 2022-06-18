@@ -1,8 +1,8 @@
 #toggle {
-    width: 60px;
+    /* width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.3); */
     position: absolute;
     bottom: 20px;
     left: 50%;
@@ -11,10 +11,10 @@
     justify-content: center;
     align-items: center;
 
-    animation-name: toggle-div-background-change;
+    /* animation-name: toggle-div-background-change;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-    animation-fill-mode: both;
+    animation-fill-mode: both; */
 }
 
 .fa-angles-down {

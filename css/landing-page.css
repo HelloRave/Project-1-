@@ -1,0 +1,129 @@
+#landing {
+    height: 100vh;
+    overflow-x: hidden; 
+    background: url(../images/background.jpg);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+#overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.above-overlay{
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#landing h1 {
+    font-family: 'Proza Libre', sans-serif;
+    font-size: 100px;
+}
+
+.contact-us {
+    background-color: aqua;
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.icon-div {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+#landing h1 {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+
+    animation-name: title-background-change;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+#landing p{
+    color: white;
+    font-weight: bold;
+}
+
+.btn:focus, .btn:active, .btn:hover, btn:visited{
+    color: white; 
+    box-shadow: none!important;
+    outline: 0;
+}
+
+.btn-border{
+    background: linear-gradient(90deg, #4458dc, #854fee);
+    border: none;
+    color: whitesmoke; 
+    position: relative;
+    transition: background 0.5s ease-in;
+}
+
+.btn-border:hover{
+    border: none;
+    background: white;
+    background-clip: padding-box;
+    color: black;
+}
+
+.btn-border::after{
+    content: '';
+    background: linear-gradient(90deg, #4458dc, #854fee);
+    border-radius: 4px;
+    position: absolute;
+    top: -2px; 
+    bottom: -2px;
+    left: -2px;
+    right: -2px;
+    z-index: -1;
+}
+
+
+/* #search{
+    height: calc(100% + 6px);
+} */
+
+@keyframes title-background-change {
+    0% {
+        background-image: linear-gradient(45deg, #9ad2cb, #d7ebba, #feffbe, #ebd494, #dabecb);
+    }
+
+    20% {
+        background-image: linear-gradient(45deg, #d7ebba, #feffbe, #ebd494, #dabecb, #9ad2cb);
+    }
+
+    40% {
+        background-image: linear-gradient(45deg, #feffbe, #ebd494, #dabecb, #9ad2cb, #d7ebba);
+    }
+
+    60% {
+        background-image: linear-gradient(45deg, #ebd494, #dabecb, #9ad2cb, #d7ebba, #feffbe);
+    }
+
+    80% {
+        background-image: linear-gradient(45deg, #dabecb, #9ad2cb, #d7ebba, #feffbe, #ebd494);
+    }
+
+    100% {
+        background-image: linear-gradient(45deg, #9ad2cb, #d7ebba, #feffbe, #ebd494, #dabecb);
+    }
+}
