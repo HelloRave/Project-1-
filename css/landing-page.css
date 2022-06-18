@@ -64,7 +64,7 @@
     font-weight: bold;
 }
 
-.btn:focus, .btn:active, .btn:hover, btn:visited{
+.btn-border:focus, .btn-border:active, .btn-border:hover, btn-border:visited{
     color: white; 
     box-shadow: none!important;
     outline: 0;

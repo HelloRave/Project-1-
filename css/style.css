@@ -22,20 +22,12 @@
     left: 60px;
 }
 
-#home-icon{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 8px;
-    font-size: 30px;
-    box-sizing: border-box;
+#home-icon {
+    display: none;
 }
 
-.fa-house-chimney{
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(90deg, #4458dc, #854fee); 
+.fa-house-chimney {
+    font-size: 20px;
 }
 
 #buttons {
@@ -80,6 +72,23 @@
     transition: top 0.35s;
 }
 
+#navigation-container-sm{
+    position: absolute;
+    z-index: 314160;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+    height: 50px;
+    width: 300px;
+    background-color: white;
+}
+
+@media screen and (min-width: 464px){
+    #navigation-container-sm{
+        bottom: 20px;
+    }
+}
+
 @media screen and (min-width: 576px) {
     #search-container {
         width: 384px;
@@ -95,4 +104,13 @@
         text-align: center;
     }
 
+    #home-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #navigation-container-sm{
+        display:none; 
+    }
 }
