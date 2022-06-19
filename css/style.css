@@ -6,12 +6,18 @@
 @import url(./legend.css);
 @import url(./toggle.css);
 
+
+body, html{
+    height: 100%;
+    overflow: hidden;
+}
+
 #map {
     height: 100%;
 }
 
 #map-container {
-    height: 0; 
+    height: 100vh; 
     overflow: hidden;
     position: relative;
     transition: height 1s;

@@ -96,11 +96,6 @@
     z-index: -1;
 }
 
-
-/* #search{
-    height: calc(100% + 6px);
-} */
-
 @keyframes title-background-change {
     0% {
         background-image: linear-gradient(45deg, #9ad2cb, #d7ebba, #feffbe, #ebd494, #dabecb);

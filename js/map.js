@@ -139,6 +139,7 @@ function createMarkerClusterGroup(className) {
 
 // Display map when DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async function () {
+
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
     console.log(response.data.features)
 
@@ -198,6 +199,7 @@ let addPom = null;
 
 // 'Pharmacy Near Me' Toggle 
 let checkBox = document.querySelector('#nearby-pharmacy')
+let nearIcon = document.querySelector('#near-me-icon')
 checkBox.addEventListener('change', function () {
     if (checkBox.checked) {
         map.flyTo(currentLocation, 16);
@@ -206,3 +208,13 @@ checkBox.addEventListener('change', function () {
     }
 })
 
+let zoom = false
+nearIcon.addEventListener('click', function () {
+    if (!zoom) {
+        map.flyTo(currentLocation, 16);
+        zoom = true
+    } else {
+        map.flyTo([1.3521, 103.8198], 12);
+        zoom = false
+    }
+})

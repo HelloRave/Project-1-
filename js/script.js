@@ -84,25 +84,26 @@ search.addEventListener('keydown', async function (event) {
         // Reset map 
         initialDisplay()
         
+        // Insert display gsl/pmed/pom here
+        let displayGsl = false;
+        let displayPmed = false;
+        let displayPom = false;
+        let displays = [];
+
         if (combinedFilteredArr.length == 0) {
-            createAlert('danger', 'Medication Not Available in Singapore');
+            createAlert('danger', 'Medication Not Available in Singapore', 'd-none');
             document.querySelector('table').classList.remove('d-sm-table');
             document.querySelector('#toggle').classList.remove('d-sm-flex');
             removeGsl();
             removePmed();
             removePom();
             removeHospital();
+            displays.push(removeGsl, removePmed, removePom, removeHospital)
         } else {
             document.querySelector('#collapse-0').classList.add('show')
             document.querySelector('table').classList.add('d-sm-table');
             document.querySelector('#toggle').classList.add('d-sm-flex')
         }
-
-        // Insert display gsl/pmed/pom here
-        let displayGsl = false;
-        let displayPmed = false;
-        let displayPom = false;
-        let displays = [];
 
         for (let classification of filterClassification(combinedFilteredArr)) {
             if (classification.toLowerCase().includes('prescription')) {
@@ -185,10 +186,9 @@ search.addEventListener('keydown', async function (event) {
             'alertContainer': alertContainer.cloneNode(true),
             'alertContainerSm': alertContainerSm.cloneNode(true),
             'displays': [...displays]
-        } //CORRECTED: key is correct but value is wrong - remains as latest - shallow copy 
+        }  
 
         dropdownItem.addEventListener('click', function () {
-            // To add for markercluster and markers 
             document.querySelector('tbody').remove()
             document.querySelector('table').appendChild(cache[dropdownItem.innerText].tbody) 
             document.querySelector('.accordion').remove()
@@ -235,12 +235,19 @@ document.querySelector('.btn-close-legend').addEventListener('click', function (
 })
 
 //Adjust height of navigation expansion 
-document.querySelector('#home-icon').addEventListener('click', function(){
+document.querySelector('#search-icon').addEventListener('click', function(){
     if (document.querySelector('#expand-navigation-sm').style.height != '222px'){
         document.querySelector('#expand-navigation-sm').style.height = '222px'
     } else {
         document.querySelector('#expand-navigation-sm').style.height = 0
     }
+})
+
+document.querySelector('#home-icon').addEventListener('click', function(){
+    
+    document.querySelector('#landing').style.height = '100vh';
+    document.querySelector('#map-container').style.height = 0
+    document.querySelector('#map-container').style.overflow = 'hidden'
 })
 
 document.querySelector('#search-home').addEventListener('click', function(){
@@ -250,8 +257,9 @@ document.querySelector('#search-home').addEventListener('click', function(){
     document.querySelector('#map-container').style.overflow = 'hidden'
 })
 
-document.querySelector('.contact-us').addEventListener('click', function(){
-    
+document.querySelector('#home-search-btn').addEventListener('click', function(){
+    document.querySelector('body').style.overflow = 'visible'
+    document.querySelector('html').style.overflow = 'visible'
     document.querySelector('#map-container').style.height = '100vh';
     document.querySelector('#landing').style.height = 0;
     document.querySelector('#landing').style.overflow = 'hidden';
