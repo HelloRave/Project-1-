@@ -1,5 +1,5 @@
 #landing {
-    height: 0;
+    height: 100vh;
     overflow-x: hidden; 
     background: url(../images/background.jpg);
     background-size: cover;
@@ -9,6 +9,8 @@
     align-items: center;
     position: relative;
     z-index: 1;
+
+    transition: height 1s;
 }
 
 #overlay{
@@ -28,10 +30,9 @@
     align-items: center;
 }
 
-
 #landing h1 {
     font-family: 'Proza Libre', sans-serif;
-    font-size: 100px;
+    font-size: 50px;
 
     background-clip: text;
     -webkit-background-clip: text;
@@ -43,24 +44,24 @@
     animation-timing-function: linear;
 }
 
-.contact-us {
-    background-color: aqua;
-    width: 200px;
-    height: 50px;
-    border-radius: 25px;
-}
-
 #landing p{
     color: white;
     font-weight: bold;
 }
 
-.icon-div {
+/* .contact-us {
+    background-color: aqua;
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+} */
+
+/* .icon-div {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     background-color: white;
-}
+} */
 
 .btn-border:focus, .btn-border:active, .btn-border:hover, btn-border:visited{
     color: white; 

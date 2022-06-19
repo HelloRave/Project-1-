@@ -50,7 +50,7 @@
     }
 }
 
-@keyframes toggle-div-background-change {
+/* @keyframes toggle-div-background-change {
     0% {
         background-color: rgba(0,0,0,0.3);
     }
@@ -66,4 +66,4 @@
     100% {
         background-color: rgba(0,0,0,0);
     }
-}
+} */

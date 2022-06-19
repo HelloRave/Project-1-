@@ -2,13 +2,6 @@ table {
     table-layout: fixed;
 }
 
-td {
-    word-wrap: break-word;
-    white-space: normal;
-    /* min-width: 160px; */
-    /* max-width: 160px; */
-}
-
 .fa-angle-up{
     display: inline-block; 
     margin-left: 10px;
@@ -19,14 +12,21 @@ td {
     margin-left: 10px;
 }
 
-.fa-angle-up:hover, .fa-angle-down:hover{
-    border: 1px solid black; 
-    background-color: black;
+#brand-name:hover, #classification:hover{
+    background: black;
     color: white;
-    border-radius: 2px;
 }
 
 ul {
     list-style: none;
     padding-left: 0;
+}
+
+.active_ingredients_list{
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
 }

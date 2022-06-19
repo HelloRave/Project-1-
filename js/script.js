@@ -47,8 +47,7 @@ search.addEventListener('keydown', async function (event) {
                 for (let i of split) {
                     i = i.toLowerCase();
                     let li = document.createElement('li')
-                    li.style.border = '1px solid black'
-                    li.style.marginBottom = '2px'
+                    li.className = 'active_ingredients_list'
                     ul.appendChild(li)
                     li.innerHTML = i
                 }
@@ -242,4 +241,18 @@ document.querySelector('#home-icon').addEventListener('click', function(){
     } else {
         document.querySelector('#expand-navigation-sm').style.height = 0
     }
+})
+
+document.querySelector('#search-home').addEventListener('click', function(){
+    
+    document.querySelector('#landing').style.height = '100vh';
+    document.querySelector('#map-container').style.height = 0
+    document.querySelector('#map-container').style.overflow = 'hidden'
+})
+
+document.querySelector('.contact-us').addEventListener('click', function(){
+    
+    document.querySelector('#map-container').style.height = '100vh';
+    document.querySelector('#landing').style.height = 0;
+    document.querySelector('#landing').style.overflow = 'hidden';
 })
