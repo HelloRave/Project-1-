@@ -1,5 +1,5 @@
 #landing {
-    height: 100vh;
+    height: 0;
     overflow-x: hidden; 
     background: url(../images/background.jpg);
     background-size: cover;
@@ -32,23 +32,7 @@
 #landing h1 {
     font-family: 'Proza Libre', sans-serif;
     font-size: 100px;
-}
 
-.contact-us {
-    background-color: aqua;
-    width: 200px;
-    height: 50px;
-    border-radius: 25px;
-}
-
-.icon-div {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: white;
-}
-
-#landing h1 {
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -59,9 +43,23 @@
     animation-timing-function: linear;
 }
 
+.contact-us {
+    background-color: aqua;
+    width: 200px;
+    height: 50px;
+    border-radius: 25px;
+}
+
 #landing p{
     color: white;
     font-weight: bold;
+}
+
+.icon-div {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
 }
 
 .btn-border:focus, .btn-border:active, .btn-border:hover, btn-border:visited{

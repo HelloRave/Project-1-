@@ -219,12 +219,12 @@ search.addEventListener('keydown', async function (event) {
 // Adjust alert-container based on collapsible tab 
 document.querySelector('#collapse-btn').addEventListener('click', function () {
     if (document.querySelector('#collapse-btn').ariaExpanded) {
-        document.querySelector('#alert-container').style.top = '143px'
-        document.querySelector('#alert-container-sm').style.top = '240px'
+        document.querySelector('#alert-container').style.top = '135px'
+        document.querySelector('#alert-container-sm').style.top = '54px'
     }
     if (document.querySelector('#collapse-btn').classList.contains('collapsed')) {
-        document.querySelector('#alert-container').style.top = '60px'
-        document.querySelector('#alert-container-sm').style.top = '100px'
+        document.querySelector('#alert-container').style.top = '54px'
+        document.querySelector('#alert-container-sm').style.top = '54px'
     }
 })
 
@@ -233,4 +233,13 @@ document.querySelector('.btn-close-legend').addEventListener('click', function (
     document.querySelector('#legend-container').style.overflow = 'hidden';
     document.querySelector('#legend-container').classList.remove('pt-5', 'pb-5');
 
+})
+
+//Adjust height of navigation expansion 
+document.querySelector('#home-icon').addEventListener('click', function(){
+    if (document.querySelector('#expand-navigation-sm').style.height != '222px'){
+        document.querySelector('#expand-navigation-sm').style.height = '222px'
+    } else {
+        document.querySelector('#expand-navigation-sm').style.height = 0
+    }
 })

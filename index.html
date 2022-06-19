@@ -65,13 +65,14 @@
         <!-- Search -->
         <div id="search-container">
             <!-- Input & Buttons -->
-            <a href="/" class="btn btn-outline-primary me-2 d-none d-sm-inline-block"><i
-                class="fa-solid fa-house-chimney"></i></a>
-            <input id='search' class='form-control me-2 mb-1 mb-sm-0' type="text" placeholder="Name of medication">
+            <a href="/" class="btn btn-outline-primary btn-sm me-2 d-none d-sm-inline-block"><i id='search-home'
+                    class="fa-solid fa-house-chimney"></i></a>
+            <input id='search' class='form-control form-control-sm me-2' type="text" placeholder="Name of medication">
             <div id="buttons">
-                <a href="/" id='search-btn' class="btn btn-primary me-2">Search</a>
-                <button id="collapse-btn" class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapse-text" aria-expanded="false" aria-controls="collapse-text">
+                <a href="/" id='search-btn' class="btn btn-primary btn-sm">Search</a>
+                <button id="collapse-btn" class="btn btn-primary btn-sm ms-2 d-none d-sm-inline-block type=" button"
+                    data-bs-toggle="collapse" data-bs-target="#collapse-text" aria-expanded="false"
+                    aria-controls="collapse-text">
                     <i class="fa-solid fa-caret-down"></i>
                 </button>
             </div>
@@ -111,26 +112,48 @@
             </div>
         </div>
 
+        <!-- Navigation Expanded -->
+        <div id="expand-navigation-sm">
+            <div class="card mx-auto my-3 drug-card">
+                <div class="card-header">
+                    <h5>VIAGRA ODT (ORODISPERSIBLE ) TABLET 50MG</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Active Ingredients: </p>
+                    <p class="card-text">Dosage Form: </p>
+                    <p class="card-text">Classification: </p>
+                </div>
+            </div>
+            <div class="card mx-auto my-3 drug-card">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
 
         <!-- Navigation bar on <576px -->
         <div id="navigation-container-sm">
-            <div>
-                <i class="fa-solid fa-house-chimney"></i>
+            <div id='home-icon' class="d-flex flex-column p-1 m-1 nav-icons-div">
+                <i class="fa-solid fa-house-chimney text-center nav-icons"></i>
+                <span>Home</span>
             </div>
-            <div>
-                <i class="fa-solid fa-house-chimney"></i>
+            <div class="d-flex flex-column p-1 m-1 nav-icons-div">
+                <i class="fa-solid fa-magnifying-glass text-center nav-icons"></i>
+                <span>History</span>
             </div>
-            <div>
-                <i class="fa-solid fa-house-chimney"></i>
+            <div class="d-flex flex-column p-1 m-1 nav-icons-div">
+                <i class="fa-solid fa-location-crosshairs text-center nav-icons"></i>
+                <span>Near Me</span>
             </div>
-            <div>
-                <i class="fa-solid fa-house-chimney"></i>
-            </div>
-            <div>
-                <i class="fa-solid fa-house-chimney"></i>
+            <div class="d-flex flex-column p-1 m-1 nav-icons-div">
+                <i class="fa-solid fa-map text-center nav-icons"></i>
+                <span>Legend</span>
             </div>
         </div>
-        
+
         <!-- Toggle to show table -->
         <div id="toggle" class="d-none">
             <a href="#drug-table"><i id="toggle-border" class="fa-solid fa-angles-down"></i></a>
@@ -139,7 +162,7 @@
     </div>
 
     <!-- Legend -->
-    <div id="legend-container" class="container-fluid">
+    <div id="legend-container" class="container-fluid d-none d-sm-block">
         <a href="#"><button type="button" class="btn-close btn-close-legend" aria-label="Close"></button></a>
         <div class="row">
             <div class="col-12 col-md-6 p-3 mb-3">
