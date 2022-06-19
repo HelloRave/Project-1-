@@ -54,52 +54,52 @@ function createTableData(arr, i, k) {
 }
 
 // Sorting function for table data - W3School sort table 
-function sortTable(n){
-    let switchCount = 0; 
+function sortTable(n) {
+    let switchCount = 0;
     let table = document.querySelector('#drug-table');
-    let switching = true; 
+    let switching = true;
     let dir = 'ascending';
 
-    while(switching){
-        switching = false; 
+    while (switching) {
+        switching = false;
         let rows = table.rows;
 
         let shouldSwitch = false;
         let row_1 = null;
-        let row_2 = null; 
-        for (let i = 1; i < (rows.length - 1); i++){
+        let row_2 = null;
+        for (let i = 1; i < (rows.length - 1); i++) {
 
             row_1 = rows[i]
             row_2 = rows[i + 1]
 
-            if (dir == 'ascending'){
-                if (row_1.childNodes[n].innerHTML > row_2.childNodes[n].innerHTML){
-                    shouldSwitch = true; 
-                    break; 
+            if (dir == 'ascending') {
+                if (row_1.childNodes[n].innerHTML > row_2.childNodes[n].innerHTML) {
+                    shouldSwitch = true;
+                    break;
                 }
-            } else if (dir == 'descending'){
-                if (row_1.childNodes[n].innerHTML < row_2.childNodes[n].innerHTML){
-                    shouldSwitch = true; 
-                    break; 
+            } else if (dir == 'descending') {
+                if (row_1.childNodes[n].innerHTML < row_2.childNodes[n].innerHTML) {
+                    shouldSwitch = true;
+                    break;
                 }
             }
-        } 
+        }
 
-        if (shouldSwitch){
+        if (shouldSwitch) {
             row_1.parentNode.insertBefore(row_2, row_1);
             switching = true;
-            switchCount++; 
+            switchCount++;
         } else {
-            if (switchCount == 0 && dir == 'ascending'){ //Why this line 
+            if (switchCount == 0 && dir == 'ascending') { //Why this line 
                 dir = 'descending';
-                switching = true; 
+                switching = true;
             }
         }
     }
 }
 
 // Create alert function
-function createAlert(color, message, class_name=null){
+function createAlert(color, message, class_name = null) {
     document.querySelector('.alert-container').innerHTML = `
     <div class="alert alert-${color} alert-dismissible fade show w-100" role="alert">
         ${message} <a href='#legend-container' class='show-legend'><i class="fa-solid fa-circle-info ms-1 ${class_name}"></i></a>
@@ -109,8 +109,10 @@ function createAlert(color, message, class_name=null){
     <div class="alert alert-${color} alert-dismissible fade show w-100" role="alert">
         ${message}</button>
     </div>`
-    document.querySelector('.show-legend').addEventListener('click', function(){
-        document.querySelector('#legend-container').classList.add('pt-5', 'pb-5');
+    document.querySelector('.show-legend').addEventListener('click', function () {
+        document.querySelector('#legend-container').classList.add('p-5');
+        document.querySelector('.btn-close-legend').classList.add('mb-4');
+        document.querySelector('#legend-container-row').classList.add('gy-4');
         document.querySelector('#legend-container').style.maxHeight = '500px'
     })
 }

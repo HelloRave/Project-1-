@@ -12,8 +12,6 @@ search.addEventListener('keydown', async function (event) {
         document.querySelector('#sort-classification-ascending').style.display = 'inline-block';
         document.querySelector('#sort-classification-descending').style.display = 'none';
 
-        document.querySelector('#toggle')
-
         // To filter data to match search value with product name or active ingredient
         let searchValue = search.value.toLowerCase()
 
@@ -21,15 +19,22 @@ search.addEventListener('keydown', async function (event) {
         let filteredArr_2 = await filterSearch('active_ingredients', searchValue)
         let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
 
+
+        let table = document.querySelector('table')
         let tbody = document.querySelector('tbody')
+        let toggle = document.querySelector('#toggle')
         tbody.innerHTML = ""
+        table.appendChild(tbody)
+        table.classList.add('d-sm-table');
+        toggle.classList.add('d-sm-flex')
+
+
+        let alertContainer = document.querySelector('.alert-container')
+        let alertContainerSm = document.querySelector('.alert-container-sm')
 
         let accordionContainer = document.querySelector('.accordion')
         accordionContainer.innerHTML = ''
 
-        // If no match, display message
-        let alertContainer = document.querySelector('.alert-container')
-        let alertContainerSm = document.querySelector('.alert-container-sm')
 
         // To display filteredArr on table 
         for (let i = 0; i < combinedFilteredArr.length; i++) {
@@ -83,7 +88,7 @@ search.addEventListener('keydown', async function (event) {
 
         // Reset map 
         initialDisplay()
-        
+
         // Insert display gsl/pmed/pom here
         let displayGsl = false;
         let displayPmed = false;
@@ -92,8 +97,8 @@ search.addEventListener('keydown', async function (event) {
 
         if (combinedFilteredArr.length == 0) {
             createAlert('danger', 'Medication Not Available in Singapore', 'd-none');
-            document.querySelector('table').classList.remove('d-sm-table');
-            document.querySelector('#toggle').classList.remove('d-sm-flex');
+            table.classList.remove('d-sm-table');
+            toggle.classList.remove('d-sm-flex');
             removeGsl();
             removePmed();
             removePom();
@@ -101,8 +106,6 @@ search.addEventListener('keydown', async function (event) {
             displays.push(removeGsl, removePmed, removePom, removeHospital)
         } else {
             document.querySelector('#collapse-0').classList.add('show')
-            document.querySelector('table').classList.add('d-sm-table');
-            document.querySelector('#toggle').classList.add('d-sm-flex')
         }
 
         for (let classification of filterClassification(combinedFilteredArr)) {
@@ -139,7 +142,7 @@ search.addEventListener('keydown', async function (event) {
         if (displayGsl) {
             createAlert('warning', 'This is under <strong>General Sales List</strong>')
             initialDisplay();
-            
+
             displays = []
         }
 
@@ -181,36 +184,46 @@ search.addEventListener('keydown', async function (event) {
         document.querySelector('.dropdown-menu').appendChild(dropdownItem)
 
         cache[`${search.value}`] = {
+            'table': table.cloneNode(true),
             'tbody': tbody.cloneNode(true),
             'accordionContainer': accordionContainer.cloneNode(true),
             'alertContainer': alertContainer.cloneNode(true),
             'alertContainerSm': alertContainerSm.cloneNode(true),
             'displays': [...displays]
-        }  
+        }
 
         dropdownItem.addEventListener('click', function () {
-            document.querySelector('tbody').remove()
-            document.querySelector('table').appendChild(cache[dropdownItem.innerText].tbody) 
+            document.querySelector('table').remove()
+            document.querySelector('#table-div').appendChild(cache[dropdownItem.innerText].table)
+            // document.querySelector('tbody').remove()
+            // document.querySelector('table').appendChild(cache[dropdownItem.innerText].tbody)
             document.querySelector('.accordion').remove()
-            document.querySelector('#accordion').appendChild(cache[dropdownItem.innerText].accordionContainer) 
+            document.querySelector('#accordion').appendChild(cache[dropdownItem.innerText].accordionContainer)
             document.querySelector('#search').value = dropdownItem.innerText
             document.querySelector('.alert-container').remove()
-            document.querySelector('#alert-container').appendChild(cache[dropdownItem.innerText].alertContainer) 
+            document.querySelector('#alert-container').appendChild(cache[dropdownItem.innerText].alertContainer)
             document.querySelector('.alert-container-sm').remove()
             document.querySelector('#alert-container-sm').appendChild(cache[dropdownItem.innerText].alertContainerSm)
-            
-            document.querySelector('.show-legend').addEventListener('click', function(){
-                document.querySelector('#legend-container').classList.add('pt-5', 'pb-5');
+
+            document.querySelector('.show-legend').addEventListener('click', function () {
+                document.querySelector('#legend-container').classList.add('p-5');
+                document.querySelector('.btn-close-legend').classList.add('mb-4');
+                document.querySelector('#legend-container-row').classList.add('gy-4');
                 document.querySelector('#legend-container').style.maxHeight = '500px'
             })
-            
+
+            document.querySelector('table').classList.add('d-sm-table');
+            document.querySelector('#toggle').classList.add('d-sm-flex');
+
             initialDisplay()
 
-            if (cache[dropdownItem.innerText].displays.length > 0){
-                for (let display of cache[dropdownItem.innerText].displays){
+            if (cache[dropdownItem.innerText].displays.length > 0) {
+                for (let display of cache[dropdownItem.innerText].displays) {
                     display()
                 }
             }
+
+            console.log(cache)
         })
     }
 })
@@ -230,34 +243,49 @@ document.querySelector('#collapse-btn').addEventListener('click', function () {
 document.querySelector('.btn-close-legend').addEventListener('click', function () {
     document.querySelector('#legend-container').style.maxHeight = 0;
     document.querySelector('#legend-container').style.overflow = 'hidden';
-    document.querySelector('#legend-container').classList.remove('pt-5', 'pb-5');
-
+    document.querySelector('#legend-container').classList.remove('p-5');
+    document.querySelector('.btn-close-legend').classList.remove('mb-4');
+    document.querySelector('#legend-container-row').classList.remove('gy-4');
 })
 
 //Adjust height of navigation expansion 
-document.querySelector('#search-icon').addEventListener('click', function(){
-    if (document.querySelector('#expand-navigation-sm').style.height != '222px'){
+document.querySelector('#legend-icon').addEventListener('click', function () {
+    if (document.querySelector('#expand-navigation-sm').style.height != '222px') {
         document.querySelector('#expand-navigation-sm').style.height = '222px'
     } else {
         document.querySelector('#expand-navigation-sm').style.height = 0
     }
 })
 
-document.querySelector('#home-icon').addEventListener('click', function(){
-    
+document.querySelector('#home-icon').addEventListener('click', function () {
+
     document.querySelector('#landing').style.height = '100vh';
     document.querySelector('#map-container').style.height = 0
     document.querySelector('#map-container').style.overflow = 'hidden'
+
+    document.querySelector('table').classList.remove('d-sm-table');
+    document.querySelector('#toggle').classList.remove('d-sm-flex');
+
+    document.querySelector('#legend-container').style.maxHeight = 0;
+    document.querySelector('#legend-container').style.overflow = 'hidden';
+    document.querySelector('#legend-container').classList.remove('p-5')
 })
 
-document.querySelector('#search-home').addEventListener('click', function(){
-    
+document.querySelector('#search-home-btn').addEventListener('click', function () {
+
     document.querySelector('#landing').style.height = '100vh';
     document.querySelector('#map-container').style.height = 0
     document.querySelector('#map-container').style.overflow = 'hidden'
+
+    document.querySelector('table').classList.remove('d-sm-table');
+    document.querySelector('#toggle').classList.remove('d-sm-flex');
+
+    document.querySelector('#legend-container').style.maxHeight = 0;
+    document.querySelector('#legend-container').style.overflow = 'hidden';
+    document.querySelector('#legend-container').classList.remove('p-5')
 })
 
-document.querySelector('#home-search-btn').addEventListener('click', function(){
+document.querySelector('#home-search-btn').addEventListener('click', function () {
     document.querySelector('body').style.overflow = 'visible'
     document.querySelector('html').style.overflow = 'visible'
     document.querySelector('#map-container').style.height = '100vh';

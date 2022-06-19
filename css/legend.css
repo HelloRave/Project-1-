@@ -15,15 +15,9 @@
     max-height: 0px;
     overflow: hidden;
     transition: max-height 1s;
-    /* position: relative;  */
 }
 
 #legend-container img{
     position: relative;
     top: -5px; 
 }
-/* .btn-close-legend{
-    position: absolute; 
-    top: -20px;
-    right: 0;
-} */
