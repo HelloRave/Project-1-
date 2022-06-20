@@ -1,8 +1,3 @@
-// Pre loader
-// window.addEventListener('load', function () {
-//     document.querySelector('#loader').className = 'd-none'
-// })
-
 // Create Map
 function createMap() {
     // Set up map view and bounds 

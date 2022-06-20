@@ -1,231 +1,18 @@
-//Cache
-let cache = {}
-
 // Display search results when 'Enter' key pressed 
-let search = document.querySelector('#search')
-search.addEventListener('keydown', async function (event) {
+document.querySelector('#map-search-input').addEventListener('keydown', async function (event) {
 
     if (event.key == 'Enter') {
 
-        document.querySelector('.fa-angle-up').style.display = 'inline-block';
-        document.querySelector('.fa-angle-down').style.display = 'none';
-        document.querySelector('#sort-classification-ascending').style.display = 'inline-block';
-        document.querySelector('#sort-classification-descending').style.display = 'none';
+        main()
 
-        // To filter data to match search value with product name or active ingredient
-        let searchValue = search.value.toLowerCase()
-
-        let filteredArr_1 = await filterSearch('product_name', searchValue)
-        let filteredArr_2 = await filterSearch('active_ingredients', searchValue)
-        let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
-
-
-        let table = document.querySelector('table')
-        let tbody = document.querySelector('tbody')
-        let toggle = document.querySelector('#toggle')
-        tbody.innerHTML = ""
-        table.appendChild(tbody)
-        table.classList.add('d-sm-table');
-        toggle.classList.add('d-sm-flex')
-
-
-        let alertContainer = document.querySelector('.alert-container')
-        let alertContainerSm = document.querySelector('.alert-container-sm')
-
-        let accordionContainer = document.querySelector('.accordion')
-        accordionContainer.innerHTML = ''
-
-
-        // To display filteredArr on table 
-        for (let i = 0; i < combinedFilteredArr.length; i++) {
-            let tr = document.createElement('tr')
-            tr.id = `row-${i}`
-            tbody.appendChild(tr)
-
-            let td1 = createTableData(combinedFilteredArr, i, 'product_name')
-
-            let td2 = document.createElement('td')
-            let split = combinedFilteredArr[i].active_ingredients.split('&&')
-            if (Array.isArray(split)) {
-                let ul = document.createElement('ul')
-                td2.appendChild(ul)
-                for (let i of split) {
-                    i = i.toLowerCase();
-                    let li = document.createElement('li')
-                    li.className = 'active_ingredients_list'
-                    ul.appendChild(li)
-                    li.innerHTML = i
-                }
-            }
-            td2.classList.add('text-capitalize', 'active_ingredients')
-
-            let td3 = createTableData(combinedFilteredArr, i, 'dosage_form')
-            td3.classList.add('d-none', 'd-lg-table-cell')
-            let td4 = createTableData(combinedFilteredArr, i, 'forensic_classification')
-
-            tr.appendChild(td1)
-            tr.appendChild(td2)
-            tr.appendChild(td3)
-            tr.appendChild(td4)
-
-            // Insert Accordion
-
-            let accordionItem = document.createElement('div')
-            accordionItem.className = 'accordion-item'
-            accordionItem.innerHTML = `
-                <h2 class="accordion-header" id="heading-${i}">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${i}" aria-expanded="true" aria-controls="collapse-${i}">
-                        ${combinedFilteredArr[i]['product_name']}
-                    </button>
-                </h2>
-                <div id="collapse-${i}" class="accordion-collapse collapse" aria-labelledby="heading-${i}">
-                    <div class="accordion-body">
-                        ${combinedFilteredArr[i]['forensic_classification']}
-                    </div>
-                </div>`
-            accordionContainer.appendChild(accordionItem)
-        }
-
-        // Reset map 
-        initialDisplay()
-
-        // Insert display gsl/pmed/pom here
-        let displayGsl = false;
-        let displayPmed = false;
-        let displayPom = false;
-        let displays = [];
-
-        if (combinedFilteredArr.length == 0) {
-            createAlert('danger', 'Medication Not Available in Singapore', 'd-none');
-            table.classList.remove('d-sm-table');
-            toggle.classList.remove('d-sm-flex');
-            removeGsl();
-            removePmed();
-            removePom();
-            removeHospital();
-            displays.push(removeGsl, removePmed, removePom, removeHospital)
-        } else {
-            document.querySelector('#collapse-0').classList.add('show')
-        }
-
-        for (let classification of filterClassification(combinedFilteredArr)) {
-            if (classification.toLowerCase().includes('prescription')) {
-                displayPom = true
-            }
-            if (classification.toLowerCase().includes('pharmacy')) {
-                displayPmed = true
-            }
-            if (classification.toLowerCase().includes('general')) {
-                displayGsl = true
-            }
-        }
-
-        console.log(displayGsl, displayPmed, displayPom, filterClassification(combinedFilteredArr))
-
-        if (displayPom) {
-            createAlert('success', 'This is a <strong>Prescription Only Medication</strong>')
-            removeGsl();
-            addPom();
-
-            displays.push(removeGsl, addPom)
-        }
-
-        if (displayPmed) {
-            createAlert('info', 'This is a <strong>Pharmacy Only Medication</strong>')
-            removeGsl();
-            removePom();
-            addPmed();
-
-            displays.push(removeGsl, removePom, addPmed)
-        }
-
-        if (displayGsl) {
-            createAlert('warning', 'This is under <strong>General Sales List</strong>')
-            initialDisplay();
-
-            displays = []
-        }
-
-        if (displayGsl && displayPmed) {
-            createAlert('danger', 'This medication is available under either <strong>Pharmacy Only Medication</strong> or <strong>General Sales List</strong>. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
-        }
-
-        if (displayPom && displayPmed) {
-            createAlert('secondary', 'This medication is available under either <strong>Prescription Only Medication</strong> or <strong>Pharmacy Only Medication</strong>. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
-        }
-
-        if (displayPom && displayPmed && displayGsl) {
-            createAlert('danger', 'This medication is available as <strong>Prescription Only Medication</strong> or <strong>Pharmacy Only Medication</strong> or <strong>General Sales list</strong> item. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
-        }
-
-        // Display FilteredArr on map based on forensic classification or dosage form or atc code
-        let displayHospital = false;
-
-        // Determine if only hospital should be shown on map
-        console.log(filterHospital(combinedFilteredArr)) //To fix: Searching tramadol will display hospital only because it has injection 
-
-        if (filterHospital(combinedFilteredArr).length > 0) {
-            displayHospital = true;
-        }
-
-        // Show hospital markers only if criteria met for classification/dosage form/atc code
-        if (displayHospital) {
-            createAlert('primary', 'This medication is only available in the <strong>hospital</strong>')
-            removeGsl();
-            removePmed();
-            removePom();
-
-            displays.push(removeGsl, removePmed, removePom)
-        }
-
-        // Adding search history into dropdown
-        let dropdownItem = document.createElement('li')
-        dropdownItem.innerHTML = `<a class="dropdown-item" href="#">${search.value}</a>`
-        document.querySelector('.dropdown-menu').appendChild(dropdownItem)
-
-        cache[`${search.value}`] = {
-            'table': table.cloneNode(true),
-            'tbody': tbody.cloneNode(true),
-            'accordionContainer': accordionContainer.cloneNode(true),
-            'alertContainer': alertContainer.cloneNode(true),
-            'alertContainerSm': alertContainerSm.cloneNode(true),
-            'displays': [...displays]
-        }
-
-        dropdownItem.addEventListener('click', function () {
-            document.querySelector('table').remove()
-            document.querySelector('#table-div').appendChild(cache[dropdownItem.innerText].table)
-            // document.querySelector('tbody').remove()
-            // document.querySelector('table').appendChild(cache[dropdownItem.innerText].tbody)
-            document.querySelector('.accordion').remove()
-            document.querySelector('#accordion').appendChild(cache[dropdownItem.innerText].accordionContainer)
-            document.querySelector('#search').value = dropdownItem.innerText
-            document.querySelector('.alert-container').remove()
-            document.querySelector('#alert-container').appendChild(cache[dropdownItem.innerText].alertContainer)
-            document.querySelector('.alert-container-sm').remove()
-            document.querySelector('#alert-container-sm').appendChild(cache[dropdownItem.innerText].alertContainerSm)
-
-            document.querySelector('.show-legend').addEventListener('click', function () {
-                document.querySelector('#legend-container').classList.add('p-5');
-                document.querySelector('.btn-close-legend').classList.add('mb-4');
-                document.querySelector('#legend-container-row').classList.add('gy-4');
-                document.querySelector('#legend-container').style.maxHeight = '500px'
-            })
-
-            document.querySelector('table').classList.add('d-sm-table');
-            document.querySelector('#toggle').classList.add('d-sm-flex');
-
-            initialDisplay()
-
-            if (cache[dropdownItem.innerText].displays.length > 0) {
-                for (let display of cache[dropdownItem.innerText].displays) {
-                    display()
-                }
-            }
-
-            console.log(cache)
-        })
     }
+})
+
+// Display search results when search button pressed 
+document.querySelector('#map-search-btn').addEventListener('click', async function (event) {
+
+    main()
+
 })
 
 // Adjust alert-container based on collapsible tab 
@@ -250,10 +37,22 @@ document.querySelector('.btn-close-legend').addEventListener('click', function (
 
 //Adjust height of navigation expansion 
 document.querySelector('#legend-icon').addEventListener('click', function () {
-    if (document.querySelector('#expand-navigation-sm').style.height != '222px') {
-        document.querySelector('#expand-navigation-sm').style.height = '222px'
+    document.querySelector('#expand-search-navigation-sm').style.height = 0;
+
+    if (document.querySelector('#expand-legend-navigation-sm').style.height != '222px') { 
+        document.querySelector('#expand-legend-navigation-sm').style.height = '222px'
     } else {
-        document.querySelector('#expand-navigation-sm').style.height = 0
+        document.querySelector('#expand-legend-navigation-sm').style.height = 0
+    }
+})
+
+document.querySelector('#search-icon').addEventListener('click', function () {
+    document.querySelector('#expand-legend-navigation-sm').style.height = 0
+    
+    if (document.querySelector('#expand-search-navigation-sm').style.height != '222px') {
+        document.querySelector('#expand-search-navigation-sm').style.height = '222px'
+    } else {
+        document.querySelector('#expand-search-navigation-sm').style.height = 0
     }
 })
 
