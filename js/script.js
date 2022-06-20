@@ -1,6 +1,27 @@
+// Landing Page search input and search button
+document.querySelector('#home-search-input').addEventListener('keydown', async function (event) {
+
+    if (event.key == 'Enter') {
+
+        await main()
+
+    }
+})
+
+document.querySelector('#home-search-btn').addEventListener('click', async function () {
+    await main()
+    document.querySelector('body').style.overflow = 'visible'
+    document.querySelector('html').style.overflow = 'visible'
+    document.querySelector('#map-container').style.height = '100vh';
+    document.querySelector('#landing').style.height = 0;
+    document.querySelector('#landing').style.overflow = 'hidden';
+
+    document.querySelector('#home-search-input').value = null
+})
+
 // Landing Page search for Anarex and dermovate 
-document.querySelector('.find-anarex').addEventListener('click', function(){
-    main('anarex')
+document.querySelector('.find-anarex').addEventListener('click', async function(){
+    await main('anarex')
     document.querySelector('body').style.overflow = 'visible'
     document.querySelector('html').style.overflow = 'visible'
     document.querySelector('#map-container').style.height = '100vh';
@@ -9,8 +30,8 @@ document.querySelector('.find-anarex').addEventListener('click', function(){
     document.querySelector('#map-search-input').value = 'Anarex'
 })
 
-document.querySelector('.find-dermovate').addEventListener('click', function(){
-    main('dermovate')
+document.querySelector('.find-dermovate').addEventListener('click', async function(){
+    await main('dermovate')
     document.querySelector('body').style.overflow = 'visible'
     document.querySelector('html').style.overflow = 'visible'
     document.querySelector('#map-container').style.height = '100vh';
@@ -24,15 +45,15 @@ document.querySelector('#map-search-input').addEventListener('keydown', async fu
 
     if (event.key == 'Enter') {
 
-        main()
+        await main()
 
     }
 })
 
 // Display search results when search button pressed 
-document.querySelector('#map-search-btn').addEventListener('click', async function (event) {
+document.querySelector('#map-search-btn').addEventListener('click', async function () {
 
-    main()
+    await main()
 
 })
 
@@ -81,6 +102,8 @@ document.querySelector('#search-icon').addEventListener('click', function () {
 
 document.querySelector('#home-icon').addEventListener('click', function () {
 
+    document.querySelector('#map-search-input').value = null
+
     document.querySelector('#landing').style.height = '100vh';
     document.querySelector('#map-container').style.height = 0
     document.querySelector('#map-container').style.overflow = 'hidden'
@@ -95,6 +118,8 @@ document.querySelector('#home-icon').addEventListener('click', function () {
 
 document.querySelector('#search-home-btn').addEventListener('click', function () {
 
+    document.querySelector('#map-search-input').value = null
+
     document.querySelector('#landing').style.height = '100vh';
     document.querySelector('#map-container').style.height = 0
     document.querySelector('#map-container').style.overflow = 'hidden'
@@ -105,12 +130,4 @@ document.querySelector('#search-home-btn').addEventListener('click', function ()
     document.querySelector('#legend-container').style.maxHeight = 0;
     document.querySelector('#legend-container').style.overflow = 'hidden';
     document.querySelector('#legend-container').classList.remove('p-5')
-})
-
-document.querySelector('#home-search-btn').addEventListener('click', function () {
-    document.querySelector('body').style.overflow = 'visible'
-    document.querySelector('html').style.overflow = 'visible'
-    document.querySelector('#map-container').style.height = '100vh';
-    document.querySelector('#landing').style.height = 0;
-    document.querySelector('#landing').style.overflow = 'hidden';
 })

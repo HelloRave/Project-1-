@@ -163,7 +163,7 @@ async function main(preSearch = null) {
     let combinedFilteredArr = null
     
     if (!preSearch) {
-        searchValue = document.querySelector('#map-search-input').value
+        searchValue = document.querySelector('#home-search-input').value || document.querySelector('#map-search-input').value
 
         let filteredArr_1 = await filterSearch('product_name', searchValue.toLowerCase())
         let filteredArr_2 = await filterSearch('active_ingredients', searchValue.toLowerCase())
