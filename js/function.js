@@ -122,7 +122,7 @@ function createAlert(color, message, class_name = null) {
 let cache = {}
 
 //Main Search Function 
-async function main(){
+async function main(preSearch = null) {
 
     // Reset map 
     initialDisplay()
@@ -131,15 +131,15 @@ async function main(){
     let displayPom = false;
     let displayHospital = false;
     let displays = [];
-    
+
     // Display table, reset innerHTML of tbody, display table toggle on map 
     let table = document.querySelector('table');
     table.classList.add('d-sm-table');
-    
+
     let tbody = document.querySelector('tbody');
     tbody.innerHTML = "";
     table.appendChild(tbody);
-    
+
     let toggle = document.querySelector('#toggle');
     toggle.classList.add('d-sm-flex');
 
@@ -151,7 +151,7 @@ async function main(){
     //
     let alertContainer = document.querySelector('.alert-container')
     let alertContainerSm = document.querySelector('.alert-container-sm')
-    
+
     // Reset the arrow icon in the table 
     document.querySelector('.fa-angle-up').style.display = 'inline-block';
     document.querySelector('.fa-angle-down').style.display = 'none';
@@ -159,11 +159,22 @@ async function main(){
     document.querySelector('#sort-classification-descending').style.display = 'none';
 
     // To filter data to match search value with product name or active ingredient
-    let searchValue = document.querySelector('#map-search-input').value
+    let searchValue = null;
+    let combinedFilteredArr = null
+    
+    if (!preSearch) {
+        searchValue = document.querySelector('#map-search-input').value
 
-    let filteredArr_1 = await filterSearch('product_name', searchValue.toLowerCase())
-    let filteredArr_2 = await filterSearch('active_ingredients', searchValue.toLowerCase())
-    let combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
+        let filteredArr_1 = await filterSearch('product_name', searchValue.toLowerCase())
+        let filteredArr_2 = await filterSearch('active_ingredients', searchValue.toLowerCase())
+        combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
+    } else {
+        searchValue = preSearch
+
+        let filteredArr_1 = await filterSearch('product_name', preSearch)
+        let filteredArr_2 = await filterSearch('active_ingredients', preSearch)
+        combinedFilteredArr = filteredArr_1.concat(filteredArr_2)
+    }
 
     // If no search results yield 
     if (combinedFilteredArr.length == 0) {
@@ -187,7 +198,7 @@ async function main(){
         // Display result alert in small screen 
         document.querySelector('.result-alert').classList.remove('d-none')
     }
-    
+
     // To display filteredArr on table 
     for (let i = 0; i < combinedFilteredArr.length; i++) {
 
@@ -226,7 +237,7 @@ async function main(){
         // To display filteredArr on search-navigation on small screen
         let navigationResultsChild = document.createElement('div');
         navigationResultsChild.classList.add('card', 'mx-auto', 'my-3', 'drug-card')
-        navigationResultsChild.innerHTML =`
+        navigationResultsChild.innerHTML = `
         <div class="card-header drug-card-header">
             <h5>${combinedFilteredArr[i]['product_name']}</h5>
         </div>

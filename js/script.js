@@ -1,3 +1,24 @@
+// Landing Page search for Anarex and dermovate 
+document.querySelector('.find-anarex').addEventListener('click', function(){
+    main('anarex')
+    document.querySelector('body').style.overflow = 'visible'
+    document.querySelector('html').style.overflow = 'visible'
+    document.querySelector('#map-container').style.height = '100vh';
+    document.querySelector('#landing').style.height = 0;
+    document.querySelector('#landing').style.overflow = 'hidden';
+    document.querySelector('#map-search-input').value = 'Anarex'
+})
+
+document.querySelector('.find-dermovate').addEventListener('click', function(){
+    main('dermovate')
+    document.querySelector('body').style.overflow = 'visible'
+    document.querySelector('html').style.overflow = 'visible'
+    document.querySelector('#map-container').style.height = '100vh';
+    document.querySelector('#landing').style.height = 0;
+    document.querySelector('#landing').style.overflow = 'hidden';
+    document.querySelector('#map-search-input').value = 'Dermovate'
+})
+
 // Display search results when 'Enter' key pressed 
 document.querySelector('#map-search-input').addEventListener('keydown', async function (event) {
 
