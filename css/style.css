@@ -80,6 +80,27 @@ body, html{
     font-size: 20px;
 }
 
+#search-icon{
+    position: relative;
+}
+
+.result-alert{
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 8px;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding: 2px;
+    text-align: center;
+    color: white;
+    background: indianred;
+}
+
 #expand-legend-navigation-sm, #expand-search-navigation-sm{
     position: absolute;
     z-index: 314160;

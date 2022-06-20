@@ -107,7 +107,8 @@ function createAlert(color, message, class_name = null) {
     </div>`
     document.querySelector('.alert-container-sm').innerHTML = `
     <div class="alert alert-${color} alert-dismissible fade show w-100" role="alert">
-        ${message}</button>
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`
     document.querySelector('.show-legend').addEventListener('click', function () {
         document.querySelector('#legend-container').classList.add('p-5');
@@ -145,6 +146,8 @@ async function main(){
     let navigationResults = document.querySelector('#expand-search-navigation-sm');
     navigationResults.innerHTML = ''
 
+    document.querySelector('.result-alert').classList.add('d-none')
+
     //
     let alertContainer = document.querySelector('.alert-container')
     let alertContainerSm = document.querySelector('.alert-container-sm')
@@ -180,6 +183,9 @@ async function main(){
 
         // Store above map layers in displays array  
         displays.push(removeGsl, removePmed, removePom, removeHospital)
+    } else {
+        // Display result alert in small screen 
+        document.querySelector('.result-alert').classList.remove('d-none')
     }
     
     // To display filteredArr on table 

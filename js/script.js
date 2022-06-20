@@ -48,12 +48,14 @@ document.querySelector('#legend-icon').addEventListener('click', function () {
 
 document.querySelector('#search-icon').addEventListener('click', function () {
     document.querySelector('#expand-legend-navigation-sm').style.height = 0
-    
+
     if (document.querySelector('#expand-search-navigation-sm').style.height != '222px') {
         document.querySelector('#expand-search-navigation-sm').style.height = '222px'
     } else {
         document.querySelector('#expand-search-navigation-sm').style.height = 0
     }
+
+    document.querySelector('.result-alert').classList.add('d-none')
 })
 
 document.querySelector('#home-icon').addEventListener('click', function () {
