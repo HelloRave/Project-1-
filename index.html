@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 1</title>
+    <title>MediMap</title>
 
     <!-- BootStrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -32,14 +32,15 @@
 <body>
 
     <!-- Landing Page -->
-    <main id="landing" class="container-fluid p-0">
+    <header id="landing" class="container-fluid p-0">
         <div id="overlay"></div>
         <div class="row gy-3 above-overlay">
             <div class="col-12 text-center">
                 <h1>MEDIMAP <i class="fa-solid fa-magnifying-glass"></i></h1>
             </div>
             <div class="col-12 d-flex mb-4 w-75">
-                <input id='home-search-input' class='form-control form-control-sm me-2' type="text" placeholder="Name of medication">
+                <input id='home-search-input' class='form-control form-control-sm me-2' type="text"
+                    placeholder="Name of medication">
                 <a href="#" id='home-search-btn' class="btn btn-primary btn-sm">Search</a>
             </div>
             <div class="col-12 mb-4 text-center">
@@ -48,10 +49,10 @@
                 <button type="button" class="btn btn-sm btn-border mx-2 find-dermovate">Dermovate</button>
             </div>
         </div>
-    </main>
+    </header>
 
     <!-- Map & Search -->
-    <div id='map-container'>
+    <main id='map-container'>
         <!-- Map -->
         <div id="map"></div>
 
@@ -60,10 +61,11 @@
             <!-- Input & Buttons -->
             <a href="#" id='search-home-btn' class="btn btn-outline-primary btn-sm me-2 d-none d-sm-inline-block"><i
                     class="fa-solid fa-house-chimney search-home-btn"></i></a>
-            <input id='map-search-input' class='form-control form-control-sm me-2' type="text" placeholder="Name of medication">
+            <input id='map-search-input' class='form-control form-control-sm me-2' type="text"
+                placeholder="Name of medication">
             <div id="buttons">
                 <a href="#" id='map-search-btn' class="btn btn-primary btn-sm">Search</a>
-                <button id="collapse-btn" class="btn btn-primary btn-sm ms-2 d-none d-sm-inline-block type=" button"
+                <button id="collapse-btn" class="btn btn-primary btn-sm ms-2 d-none d-sm-inline-block" type="button" 
                     data-bs-toggle="collapse" data-bs-target="#collapse-text" aria-expanded="false"
                     aria-controls="collapse-text">
                     <i class="fa-solid fa-caret-down"></i>
@@ -115,29 +117,34 @@
                 <div class="row gy-4">
                     <div class="col-12">
                         <img class='gsl-legend-icon' src="./images/markers/store.png" alt="">
-                        <strong>General Sales List</strong>: Health products which can be purchased off the shelves, and are
-                        deemed to be reasonably safe to be used by the public for minor ailments without medical supervision.
+                        <strong>General Sales List</strong>: Health products which can be purchased off the shelves, and
+                        are
+                        deemed to be reasonably safe to be used by the public for minor ailments without medical
+                        supervision.
                     </div>
                     <div class="col-12">
                         <img class='pmed-legend-icon' src="./images/markers/pharmacy.png" alt="">
-                        <strong>Pharmacy Only Medication</strong>: Health products that can only be obtained from a pharmacist
+                        <strong>Pharmacy Only Medication</strong>: Health products that can only be obtained from a
+                        pharmacist
                         at a retail pharmacy.
                     </div>
                     <div class="col-12">
                         <img class='pom-legend-icon' src="./images/markers/doctors.png" alt="">
-                        <strong>Prescription Only Medication</strong>: Health products that can only be obtained from a doctor
+                        <strong>Prescription Only Medication</strong>: Health products that can only be obtained from a
+                        doctor
                         or a dentist, or from a pharmacist with a prescription from a doctor or a dentist.
                     </div>
                     <div class="col-12">
                         <img class='hospital-legend-icon' src="./images/markers/hospital.png" alt="">
-                        <strong>Hospital</strong>: Health products that can only be obtained from a doctor in the hospital.
+                        <strong>Hospital</strong>: Health products that can only be obtained from a doctor in the
+                        hospital.
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Navigation bar on <576px -->
-        <div id="navigation-container-sm">
+        <nav id="navigation-container-sm">
             <div id='home-icon' class="d-flex flex-column p-1 m-1 nav-icons-div">
                 <i class="fa-solid fa-house-chimney text-center nav-icons"></i>
                 <span>Home</span>
@@ -155,18 +162,18 @@
                 <i class="fa-solid fa-map text-center nav-icons"></i>
                 <span>Legend</span>
             </div>
-        </div>
+        </nav>
 
         <!-- Toggle to show table -->
         <div id="toggle" class="d-none">
             <a href="#drug-table"><i id="toggle-border" class="fa-solid fa-angles-down"></i></a>
         </div>
 
-    </div>
+    </main>
 
     <!-- Legend -->
-    <div id="legend-container" class="container-fluid d-none d-sm-block">
-        <a href="#"><button type="button" class="btn-close btn-close-legend" aria-label="Close"></button></a>
+    <section id="legend-container" class="container-fluid d-none d-sm-block">
+        <button type="button" class="btn-close btn-close-legend" aria-label="Close"></button>
         <div id='legend-container-row' class="row gy-4">
             <div class="col-12 col-md-6">
                 <img class='gsl-legend-icon' src="./images/markers/store.png" alt="">
@@ -188,32 +195,30 @@
                 <strong>Hospital</strong>: Health products that can only be obtained from a doctor in the hospital.
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Search Result Table -->
-    <section>
-        <div id="table-div">
-            <table id='drug-table' class="table table-striped table-hover d-none">
-                <thead class="table-group-divider">
-                    <tr>
-                        <th scope="col" id="brand-name">
-                            Brand Name
-                            <span><i class="fa-solid fa-angle-down"></i></span>
-                            <span><i class="fa-solid fa-angle-up"></i></span>
-                        </th>
-                        <th scope="col">Active Ingredient(s)</th>
-                        <th scope="col" class="d-none d-lg-table-cell">Dosage Form</th>
-                        <th scope="col" id="classification">
-                            Classification
-                            <span><i id='sort-classification-descending' class="fa-solid fa-angle-down"></i></span>
-                            <span><i id='sort-classification-ascending' class="fa-solid fa-angle-up"></i></span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                </tbody>
-            </table>
-        </div>
+    <section id="table-div">
+        <table id='drug-table' class="table table-striped table-hover d-none">
+            <thead class="table-group-divider">
+                <tr>
+                    <th scope="col" id="brand-name">
+                        Brand Name
+                        <span><i class="fa-solid fa-angle-down"></i></span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </th>
+                    <th scope="col">Active Ingredient(s)</th>
+                    <th scope="col" class="d-none d-lg-table-cell">Dosage Form</th>
+                    <th scope="col" id="classification">
+                        Classification
+                        <span><i id='sort-classification-descending' class="fa-solid fa-angle-down"></i></span>
+                        <span><i id='sort-classification-ascending' class="fa-solid fa-angle-up"></i></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            </tbody>
+        </table>
     </section>
 
     <!-- BootStrap -->

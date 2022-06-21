@@ -136,7 +136,6 @@ function createMarkerClusterGroup(className) {
 window.addEventListener('DOMContentLoaded', async function () {
 
     let response = await axios.get('./datasets/retail-pharmacy-locations-geojson.geojson')
-    console.log(response.data.features)
 
     // Add all four layers to map 
     let hospitalLayerGroup = createMarkerClusterGroup('hospitalMarkerClusterIcon').addTo(map)

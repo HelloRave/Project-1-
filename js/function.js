@@ -265,7 +265,6 @@ async function main(preSearch = null) {
         }
     }
 
-    //console.log(displayGsl, displayPmed, displayPom, filterClassification(combinedFilteredArr))
 
     if (displayPom) {
         createAlert('success', 'This is a <strong>Prescription Only Medication</strong>')
@@ -293,21 +292,33 @@ async function main(preSearch = null) {
 
     if (displayGsl && displayPmed) {
         createAlert('danger', 'This medication is available under either <strong>Pharmacy Only Medication</strong> or <strong>General Sales List</strong>. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
+        
+        initialDisplay();
+
+        displays = []
     }
 
     if (displayPom && displayPmed) {
         createAlert('secondary', 'This medication is available under either <strong>Prescription Only Medication</strong> or <strong>Pharmacy Only Medication</strong>. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
+    
+        removeGsl();
+        removePom();
+        addPmed();
+
+        displays.push(removeGsl, removePom, addPmed)
     }
 
     if (displayPom && displayPmed && displayGsl) {
         createAlert('danger', 'This medication is available as <strong>Prescription Only Medication</strong> or <strong>Pharmacy Only Medication</strong> or <strong>General Sales list</strong> item. <br>Please refer to the table below or speak to a Pharmacist to find out more.')
+    
+        initialDisplay();
+
+        displays = []
     }
 
     if (filterHospital(combinedFilteredArr).length > 0) {
         displayHospital = true;
     }
-
-    console.log(filterHospital(combinedFilteredArr))
 
     if (displayHospital) {
         createAlert('primary', 'This medication is only available in the <strong>hospital</strong>')
@@ -323,6 +334,7 @@ async function main(preSearch = null) {
     dropdownItem.innerHTML = `<a class="dropdown-item" href="#">${searchValue}</a>`
     document.querySelector('.dropdown-menu').appendChild(dropdownItem)
 
+    let dropDownClone = dropdownItem.cloneNode(true)
     // Store all into cache 
     cache[`${searchValue}`] = {
         'table': table.cloneNode(true),
@@ -334,19 +346,21 @@ async function main(preSearch = null) {
 
     // Display respective dropdown items by accessing cache 
     dropdownItem.addEventListener('click', function () {
-
         // Reset table and display cache 
         document.querySelector('table').remove()
-        document.querySelector('#table-div').appendChild(cache[dropdownItem.innerText].table)
+        document.querySelector('#table-div').appendChild(cache[dropDownClone.innerText].table)
+
+        document.querySelector('#drug-table > tbody').remove();
+        document.querySelector('#drug-table').appendChild(cache[dropDownClone.innerText].tbody)
 
         // Set value in search input as the dropdown text 
         document.querySelector('#map-search-input').value = dropdownItem.innerText
 
         // Reset alert and display cache 
         document.querySelector('.alert-container').remove()
-        document.querySelector('#alert-container').appendChild(cache[dropdownItem.innerText].alertContainer)
+        document.querySelector('#alert-container').appendChild(cache[dropDownClone.innerText].alertContainer)
         document.querySelector('.alert-container-sm').remove()
-        document.querySelector('#alert-container-sm').appendChild(cache[dropdownItem.innerText].alertContainerSm)
+        document.querySelector('#alert-container-sm').appendChild(cache[dropDownClone.innerText].alertContainerSm)
 
         document.querySelector('.show-legend').addEventListener('click', function () {
             document.querySelector('#legend-container').classList.add('p-5');

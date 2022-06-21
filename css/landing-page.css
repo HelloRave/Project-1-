@@ -49,20 +49,6 @@
     font-weight: bold;
 }
 
-/* .contact-us {
-    background-color: aqua;
-    width: 200px;
-    height: 50px;
-    border-radius: 25px;
-} */
-
-/* .icon-div {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: white;
-} */
-
 .btn-border:focus, .btn-border:active, .btn-border:hover, btn-border:visited{
     color: white; 
     box-shadow: none!important;
