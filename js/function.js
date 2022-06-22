@@ -354,7 +354,7 @@ async function main(preSearch = null) {
         document.querySelector('#drug-table').appendChild(cache[dropDownClone.innerText].tbody)
 
         // Set value in search input as the dropdown text 
-        document.querySelector('#map-search-input').value = dropdownItem.innerText
+        document.querySelector('#map-search-input').value = dropDownClone.innerText
 
         // Reset alert and display cache 
         document.querySelector('.alert-container').remove()
@@ -375,8 +375,8 @@ async function main(preSearch = null) {
         // Reset map display and display cache 
         initialDisplay()
 
-        if (cache[dropdownItem.innerText].displays.length > 0) {
-            for (let display of cache[dropdownItem.innerText].displays) {
+        if (cache[dropDownClone.innerText].displays.length > 0) {
+            for (let display of cache[dropDownClone.innerText].displays) {
                 display()
             }
         }
