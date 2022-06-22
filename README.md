@@ -61,11 +61,11 @@ To know whether a medication is available in Singapore, whether it can be bought
 
 **3. Structure** 
 
-*Insert diagram here* 
+![Structure](./readme/Structure.png) 
 
 **4. Skeleton**
 
-*Insert scan here* 
+![Skeleton](./readme/Skeleton.jpg)
 
 **5. Surface**
 
@@ -135,6 +135,7 @@ Test Cases can be found [here](./readme/Test%20Cases.pdf)
 **Others** 
 - [W3Schools](https://www.w3schools.com/howto/howto_js_sort_table.asp) - Learn about sort table function 
 - [Bytes](https://ui.dev/amiresponsive) - Display mobile responsiveness
+- [Lucidchart](https://www.lucidchart.com/pages/) - Design structure of page 
 - [Axios](https://cdnjs.com/libraries/axios) - AJAX request
 - [Leaflet](https://leafletjs.com/) - Choropleth map 
 - [Leaflet Marker Cluster](https://github.com/Leaflet/Leaflet.markercluster) - Marker clustering plug-in for leaflet 
