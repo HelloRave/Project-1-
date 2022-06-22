@@ -90,8 +90,13 @@ function displayGeojson(responseData, markerIcon, hospital = null) {
             div.innerHTML = feature.properties.Description;
             let allTd = div.querySelectorAll('td')
             layer.bindPopup(`
-            Pharmacy Name: ${allTd[6].innerHTML}
-            Address: ${allTd[4].innerHTML} SINGAPORE ${allTd[0].innerHTML}`) //To insert image 
+
+            <div class="card">
+                 <div class="card-body">
+                    <h5 class="card-title">${allTd[6].innerHTML}</h5>
+                    <p class="card-text">Address: ${allTd[4].innerHTML} SINGAPORE ${allTd[0].innerHTML}</p>
+                </div>
+            </div>`) 
         }
     })
 

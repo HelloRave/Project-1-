@@ -152,11 +152,11 @@ body, html{
         display: block; 
     }
 
-    .card-body {
+    .options-card-body {
         text-align: center;
     }
     
-    .card-item {
+    .options-card-item {
         vertical-align: middle
     }
 

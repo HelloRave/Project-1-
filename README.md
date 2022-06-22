@@ -69,9 +69,6 @@ To know whether a medication is available in Singapore, whether it can be bought
 
 **5. Surface**
 
-**Colours**
-
-
 **Fonts** 
 
 Proza Libre is used as the font for the application title on the landing page because of it's professional outlook. 
@@ -93,6 +90,7 @@ Proza Libre is used as the font for the application title on the landing page be
 
 ## Testing 
 
+Test Cases can be found [here](./readme/Test%20Cases.pdf)
 
 ## Deployment 
 
